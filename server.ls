@@ -172,7 +172,7 @@ server = (req, res) ->
     return res.end "#{req.url} forbidden"
 
   # directory: give index.html, or generate a list of files
-  if fs.lstatSync file-path .isDirectory! =>
+  if fs.existsSync(file-path) and fs.lstatSync(file-path)isDirectory! =>
     dir = file-path.replace /\/$/,""
     file-path = "#{file-path}index.html"
     if not fs.existsSync(file-path) =>
@@ -184,7 +184,7 @@ server = (req, res) ->
       return res.end \</ul>\n
 
   # file not exists: 404
-  if not fs.existsSync file-path =>
+  if not fs.existsSync(file-path) =>
     res.writeHead 404, ctype!
     return res.end "#{req.url} not found"
   console.log "[ GET ] #{file-path} (#{ctype file-path})"
@@ -199,8 +199,8 @@ update-file = ->
   [type,cmd] = [ftype(it), ""]
   if type == \other => return
   if type == \ls => cmd = "#{ls} -cb #{it}"
-  if type == \sass => cmd = "#{sass} -cb #{it} #{it.replace /\.sass$/, \.css}"
-  if type == \jade => cmd = "#{jade} -cb #{it}"
+  if type == \sass => cmd = "#{sass} #{it} #{it.replace /\.sass$/, \.css}"
+  if type == \jade => cmd = "#{jade} #{it}"
   if cmd =>
     console.log "[BUILD] #{cmd}"
     child_process.exec cmd, log
