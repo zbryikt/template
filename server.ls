@@ -174,7 +174,7 @@ server = (req, res) ->
   # directory: give index.html, or generate a list of files
   if fs.existsSync(file-path) and fs.lstatSync(file-path)isDirectory! =>
     dir = file-path.replace /\/$/,""
-    file-path = "#{file-path}index.html"
+    file-path = "#{file-path}/index.html"
     if not fs.existsSync(file-path) =>
       files = fs.readdirSync dir
       dir = req.url.replace /\/$/,""
