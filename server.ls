@@ -164,12 +164,21 @@ ftype = ->
   | /\.jade$/.exec it => "jade"
   | otherwise => "other"
 
+# assign functions to route-table for server side script routing
+sample-cgi = (req, res) ->
+  res.writeHead 200, {"Content-type": "text/html"}
+  res.end "hello world!"
+route-table = {"/sample-cgi": sample-cgi}
 
 server = (req, res) ->
   file-path = path.resolve cwd, ".#{req.url}"
   if file-path.indexOf(cwd) < 0 =>
     res.writeHead 403, ctype!
     return res.end "#{req.url} forbidden"
+
+  # custom server side script
+  rel-path = file-path.replace cwd, ""
+  if rel-path of route-table => return route-table[rel-path] req, res
 
   # directory: give index.html, or generate a list of files
   if fs.existsSync(file-path) and fs.lstatSync(file-path)isDirectory! =>
