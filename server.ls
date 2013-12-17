@@ -171,6 +171,7 @@ sample-cgi = (req, res) ->
 route-table = {"/sample-cgi": sample-cgi}
 
 server = (req, res) ->
+  req.url = req.url - /[?#].*$/
   file-path = path.resolve cwd, ".#{req.url}"
   if file-path.indexOf(cwd) < 0 =>
     res.writeHead 403, ctype!
