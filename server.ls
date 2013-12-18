@@ -5,7 +5,8 @@ jade = if fs.existsSync v=\node_modules/.bin/jade => v else \jade
 sass = if fs.existsSync v=\node_modules/.bin/sass => v else \sass
 cwd = path.resolve process.cwd!
 
-ignore-list = [path.resolve cwd,\server.ls]
+ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]/, /^node_modules\//,/^assets\//]
+ignore-func = (f) -> ignore-list.filter(-> it.exec f)length
 
 type-table =
   "3gp":"video/3gpp",
@@ -150,7 +151,7 @@ type-table =
   "xyz":"chemical/x-pdb",
   "zip":"application/zip"
 
-watch-path = \.
+watch-path = \./
 
 ctype = (name=null) ->
   ret = /\.([^.]+)$/.exec name
@@ -205,7 +206,6 @@ server = (req, res) ->
 
 log = (error, stdout, stderr) -> if "#{stdout}\n#{stderr}".trim! => console.log that
 update-file = ->
-  if it in ignore-list => return
   [type,cmd] = [ftype(it), ""]
   if type == \other => return
   if type == \ls => cmd = "#{ls} -cb #{it}"
@@ -215,7 +215,7 @@ update-file = ->
     console.log "[BUILD] #{cmd}"
     child_process.exec cmd, log
 
-watcher = chokidar.watch watch-path, ignored: /^\./, persistent: true
+watcher = chokidar.watch watch-path, ignored: ignore-func, persistent: true
   .on \add, update-file
   .on \change, update-file
 
