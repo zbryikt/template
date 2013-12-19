@@ -1,12 +1,15 @@
 require! <[chokidar http fs child_process path]>
 
+RegExp.escape = -> it.replace /[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"
+
 ls   = if fs.existsSync v=\node_modules/.bin/livescript => v else \livescript
 jade = if fs.existsSync v=\node_modules/.bin/jade => v else \jade
 sass = if fs.existsSync v=\node_modules/.bin/sass => v else \sass
 cwd = path.resolve process.cwd!
+cwd-re = new RegExp RegExp.escape "#cwd#{if cwd[* - 1]=='/' => "" else \/}"
 
-ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]/, /^node_modules\//,/^assets\//]
-ignore-func = (f) -> ignore-list.filter(-> it.exec f)length
+ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]+/, /^node_modules\//,/^assets\//]
+ignore-func = (f) -> ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length
 
 type-table =
   "3gp":"video/3gpp",
@@ -151,7 +154,7 @@ type-table =
   "xyz":"chemical/x-pdb",
   "zip":"application/zip"
 
-watch-path = \./
+watch-path = \.
 
 ctype = (name=null) ->
   ret = /\.([^.]+)$/.exec name
