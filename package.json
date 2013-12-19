@@ -13,7 +13,7 @@
     "npm": ">=1.2.2"
   },
   "scripts": {
-    "start": "./node_modules/.bin/lsc server.ls"
+    "start": "./node_modules/.bin/lsc server.ls",
     "prepare": "npm install chokidar@0.8.0"
   },
   "dependencies": {},
