@@ -204,7 +204,9 @@ server = (req, res) ->
   console.log "[ GET ] #{file-path} (#{ctype file-path})"
 
   buf = fs.readFileSync file-path
-  res.writeHead 200, ctype file-path
+  res.writeHead 200, do
+    "Content-Length": buf.length
+    "Content-Type": ctype file-path
   res.end buf
 
 log = (error, stdout, stderr) -> if "#{stdout}\n#{stderr}".trim! => console.log that
