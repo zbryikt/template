@@ -13,5 +13,8 @@ html(lang="en")
     include library.jade
     // custom files
     link(rel="stylesheet",type="text/css",href="index.css")
+    script(src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places")
+    script(type="text/javascript",src="config.js")
     script(type="text/javascript",src="index.js")
-  body
+  body(ng-app="main", ng-controller="main")
+    #mainMap
