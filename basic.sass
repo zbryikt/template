@@ -1,0 +1,38 @@
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
+=transition($arg1)
+  -ms-transition: $arg1
+  -moz-transition: $arg1
+  -webkit-transition: $arg1
+  -o-transition: $arg1
+  transition: $arg1
+
+=transform($arg)
+  -ms-transform: $arg
+  -moz-transform: $arg
+  -webkit-transform: $arg
+  -o-transform: $arg
+  transform: $arg
+
+=animation($arg)
+  -ms-animation: $arg
+  -moz-animation: $arg
+  -webkit-animation: $arg
+  -o-animation: $arg
+  animation: $arg
+
+=animation-delay($arg)
+  -ms-animation-delay: $arg
+  -moz-animation-delay: $arg
+  -webkit-animation-delay: $arg
+  -o-animation-delay: $arg
+  animation-delay: $arg
+
