@@ -8,19 +8,19 @@
   @keyframes #{$name}
     @content
 
-=transition($arg1)
-  -ms-transition: $arg1
-  -moz-transition: $arg1
-  -webkit-transition: $arg1
-  -o-transition: $arg1
-  transition: $arg1
+=transition($arg...)
+  -ms-transition: $arg...
+  -moz-transition: $arg...
+  -webkit-transition: $arg...
+  -o-transition: $arg...
+  transition: $arg...
 
-=transform($arg)
-  -ms-transform: $arg
-  -moz-transform: $arg
-  -webkit-transform: $arg
-  -o-transform: $arg
-  transform: $arg
+=transform($arg...)
+  -ms-transform: $arg...
+  -moz-transform: $arg...
+  -webkit-transform: $arg...
+  -o-transform: $arg...
+  transform: $arg...
 
 =animation($arg)
   -ms-animation: $arg
@@ -36,3 +36,10 @@
   -o-animation-delay: $arg
   animation-delay: $arg
 
+=no-selection
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
