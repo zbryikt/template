@@ -287,7 +287,8 @@ update-file = ->
         stylus fs.read-file-sync(src)toString!
           .set \filename, src
           .define 'index', (a,b) ->
-            return new stylus.nodes.Unit("#{(a.val or a.string)}".indexOf b.val)
+            a = (a.string or a.val).split(' ')
+            return new stylus.nodes.Unit(a.indexOf b.val)
           .render (e, css) ->
             if e =>
               console.log "[BUILD]   #src failed: "
