@@ -244,7 +244,7 @@ update-file = ->
   if !it or /node_modules|\.swp$/.exec(it)=> return
   src = if it.0 != \/ => path.join(cwd,it) else it
   src = src.replace path.join(cwd,\/), ""
-  [type,cmd,dess,des] = [ftype(src), "",[],""]
+  [type,cmd,des] = [ftype(src), "",""]
 
   if type == \other => return
   if type == \ls =>
@@ -304,7 +304,9 @@ update-file = ->
   if type == \jade => 
     des = src.replace /\.jade$/, ".html"
     try 
-      fs.write-file-sync des, jade.render (fs.read-file-sync src .toString!),{filename: src}
+      desdir = path.dirname(des)
+      if !fs.exists-sync(desdir) or !fs.stat-sync(desdir).is-directory! => mkdir-recurse desdir
+      fs.write-file-sync des, jade.render (fs.read-file-sync src .toString!),{filename: src, basedir: path.join(cwd)}
       console.log "[BUILD] #src --> #des"
     catch
       console.log "[BUILD] #src failed: "
