@@ -262,6 +262,7 @@ update-file = ->
     else =>
       des = src.replace /\.ls$/, ".js"
       try
+        mkdir-recurse path.dirname(des)
         fs.write-file-sync(
           des,
           uglify.minify(lsc.compile(fs.read-file-sync(src)toString!,{bare:true}),{fromString:true}).code
