@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <ExtensionList>
-    <Extension Id="com.example.helloworld.extension">
+    <Extension Id="com.example.template">
         <HostList>
            <Host Name="PHXS" Port="8088"/> 
         </HostList>
