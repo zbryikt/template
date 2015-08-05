@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+echo -n "Password: "
+read -s password
+rm dist.zxp
+echo
+./ZXPSignCmd -sign dist/ dist.zxp adobe.p12 $password -tsa https://timestamp.geotrust.com/tsa

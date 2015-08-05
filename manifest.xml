@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ExtensionManifest ExtensionBundleId="template" ExtensionBundleName="template" ExtensionBundleVersion="1.0" Version="4.0">
+  <ExtensionList>
+    <Extension Id="template" Version="1.0.0"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PHXS" Version="14.0"/>
+      <Host Name="PHSP" Version="14.0"/>
+      <Host Name="ILST" Version="18.0"/>
+    </HostList>
+    <LocaleList>
+      <Locale Code="All"/>
+    </LocaleList>
+    <RequiredRuntimeList>
+      <RequiredRuntime Name="CSXS" Version="5.0"/>
+    </RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="template">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <ScriptPath>./js/app.js</ScriptPath>
+        </Resources>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>template</Menu>
+          <Geometry>
+            <Size>
+              <Height>300</Height>
+              <Width>230</Width>
+            </Size>
+            <MaxSize>
+              <Height>600</Height>
+              <Width>230</Width>
+            </MaxSize>
+            <MinSize>
+              <Height>270</Height>
+              <Width>230</Width>
+            </MinSize>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>
