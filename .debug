@@ -3,6 +3,7 @@
     <Extension Id="template">
         <HostList>
            <Host Name="PHXS" Port="8088"/> 
+           <Host Name="ILST" Port="8089"/> 
         </HostList>
     </Extension>
 </ExtensionList>

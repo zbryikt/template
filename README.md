@@ -23,3 +23,8 @@ check certificate timestamp
 ```
   openssl x509 -enddate -noout -in file.pem
 ```
+
+Debug
+=======================
+
+Use localhost:8088 for Photoshop, and localhost:8089 for Illustrator. Check .debug for more configuration.
