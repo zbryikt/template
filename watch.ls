@@ -52,6 +52,15 @@ update-file = ->
         console.log "[COPY ] #src --> #des"
       catch
         console.log "[COPY ] #src failed: \n", e.message
+    else if /^.debug$/.exec(src) =>
+      try
+        des = src.replace(/^/, 'dist/')
+        desdir = path.dirname(des)
+        if !fs.exists-sync(desdir) or !fs.stat-sync(desdir).is-directory! => mkdir-recurse desdir
+        fs.copy-sync src, des
+        console.log "[COPY ] #src --> #des"
+      catch
+        console.log "[COPY ] #src failed: \n", e.message
     else if /^assets\//.exec(src) =>
       try
         des = src.replace(/^assets/, 'dist/assets')
@@ -121,8 +130,13 @@ update-file = ->
       console.log e.message
     return 
 
+white-list = [/^\.debug$/]
 ignore-list = [/^server.ls$/, /library.jade$/, /^\.[^/]+/, /node_modules/, /\.swp$/, /^dist\//]
-ignore-func = (f) -> if f => ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length else 0
+ignore-func = (f) ->
+  if !f => return 0
+  f = f.replace(cwd-re, "")replace(/^\.\/+/, "")
+  if white-list.filter(->it.exec f)length => return 0
+  ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length
 watcher = chokidar.watch \., ignored: ignore-func, persistent: true
   .on \add, update-file
   .on \change, update-file
