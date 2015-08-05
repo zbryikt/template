@@ -1,8 +1,8 @@
 {
   "author": "Kirby Wu",
-  "name": "template",
-  "description": "simple, quick template for bootstrap a page",
-  "version": "0.0.1",
+  "name": "adobe-extension-template",
+  "description": "template for adobe extension",
+  "version": "1.0.0",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
@@ -12,16 +12,12 @@
     "node": ">=0.12.6",
     "npm": ">=1.2.2"
   },
-  "scripts": {
-    "start": "node_modules/.bin/lsc server.ls",
-    "restart": "node_modules\\.bin\\lsc server.ls",
-    "prepare": "npm install chokidar@0.8.0"
-  },
   "dependencies": {
     "LiveScript": ">=1.2.0",
     "jade": ">=0.27.6",
     "chokidar": "=1.0.3",
     "stylus": "=0.50.0",
-    "uglify-js": "=2.4.16"
+    "uglify-js": "=2.4.16",
+    "fs-extra": "=0.21.0"
   }
 }
