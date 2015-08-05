@@ -1,4 +1,4 @@
-require! <[chokidar fs-extra path jade stylus]>
+require! <[chokidar fs-extra path jade stylus express]>
 require! 'uglify-js': uglify, LiveScript: lsc
 fs = fs-extra
 
@@ -126,3 +126,7 @@ ignore-func = (f) -> if f => ignore-list.filter(-> it.exec f.replace(cwd-re, "")
 watcher = chokidar.watch \., ignored: ignore-func, persistent: true
   .on \add, update-file
   .on \change, update-file
+
+app = express!
+app.use \/, express.static(path.join(__dirname, 'dist'))
+server = app.listen 9999, -> console.log "Listening at http://localhost:#{server.address!port}"
