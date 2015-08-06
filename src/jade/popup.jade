@@ -1,0 +1,14 @@
+doctype html
+//- basic libraries: jquery(1.10.2), d3js(3.3.11), angularjs(1.2.3), bootstrap(3.0.2)
+- var lib = { jquery: true, d3js: true, angular: true, bootstrap: true }
+html(lang="en")
+  head(prefix="og: http://ogp.me/ns#")
+    meta(charset="utf-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title template
+    // libraries
+    include library.jade
+    // custom files
+    link(rel="stylesheet",type="text/css",href="css/popup.css")
+    script(type="text/javascript",src="js/popup.js")
+  body
