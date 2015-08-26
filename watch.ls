@@ -43,7 +43,16 @@ update-file = ->
   [type,cmd,des] = [ftype(src), "",""]
 
   if type == \other => 
-    if /^manifest.xml$/.exec(src) =>
+    if /^manifest.json/.exec(src) =>
+      try
+        des = src.replace(/^/, 'dist/')
+        desdir = path.dirname(des)
+        if !fs.exists-sync(desdir) or !fs.stat-sync(desdir).is-directory! => mkdir-recurse desdir
+        fs.copy-sync src, des
+        console.log "[COPY ] #src --> #des"
+      catch
+        console.log "[COPY ] #src failed: \n", e.message
+    else if /^manifest.xml$/.exec(src) =>
       try
         des = src.replace(/^/, 'dist/CSXS/')
         desdir = path.dirname(des)
