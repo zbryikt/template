@@ -14,7 +14,7 @@
   ],
   "browser_action": {
     "default_icon": {
-      "64": "assets/template/64.png",
+      "64": "assets/template/64.png"
     },
     "default_title": "template",
     "default_popup": "popup.html"
@@ -25,7 +25,7 @@
     "identity"
   ],
   "icons": {
-    "64": "assets/icon/template.png"
+    "64": "assets/icon/64.png"
   },
   "web_accessible_resources": [],
   "content_security_policy": "script-src 'self' https://code.jquery.com/ https://maxcdn.bootstrapcdn.com/ https://cdnjs.cloudflare.com; object-src 'self'"
