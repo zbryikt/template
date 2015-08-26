@@ -28,5 +28,5 @@
     "64": "assets/icon/64.png"
   },
   "web_accessible_resources": [],
-  "content_security_policy": "script-src 'self' https://code.jquery.com/ https://maxcdn.bootstrapcdn.com/ https://cdnjs.cloudflare.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://code.jquery.com/ https://maxcdn.bootstrapcdn.com/ https://cdnjs.cloudflare.com; object-src 'self'"
 }
