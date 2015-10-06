@@ -6,6 +6,15 @@ base template for developing html5 adobe extension
 Development Note
 ======================
 
+Enable dev mode for testing extension without signing it : [(ref)](http://www.adobe.com/devnet/creativesuite/articles/a-short-guide-to-HTML5-extensions.html)
+
+* On Mac, open the file ~/Library/Preferences/com.adobe.CSXS.4.plist and add a row with key PlayerDebugMode, of type String, and value 1.
+* On Windows, open the registry key HKEY_CURRENT_USER/Software/Adobe/CSXS.4 and add a key named PlayerDebugMode, of type String, and value 1.
+
+Location for unsigned extension :
+* On Mac, copy the extension into ~/Library/Application Support/Adobe/CEPServiceManager4/extensions
+* On Windows, copy the extension into %APPDATA%\Adobe\CEPServiceManager4\extensions
+
 Download Extension signing toolkit ( ZXPSignCmd  ) : 
 * http://labs.adobe.com/downloads/extensionbuilder3.html
 
