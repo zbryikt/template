@@ -14,7 +14,7 @@
   ],
   "browser_action": {
     "default_icon": {
-      "64": "assets/template/64.png"
+      "64": "assets/icon/64.png"
     },
     "default_title": "template",
     "default_popup": "popup.html"
