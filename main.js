@@ -19,8 +19,6 @@ app.on('ready', function(){
   });
   mainWindow.loadUrl("file://" + __dirname + "/index.html");
   mainWindow.openDevTools();
-  console.log(fs.readFileSync('main.ls').toString());
-  console.log(fs.readFileSync('/Users/tkirby/workspace/zbryikt/electron-test/main.ls').toString());
   return mainWindow.on('closed', function(){
     var mainWindow;
     return mainWindow = null;
