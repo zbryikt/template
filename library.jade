@@ -10,6 +10,7 @@ if use.cdn
   //- from cdn
   if lib.jquery
     script(type="text/javascript",src="//codeorigin.jquery.com/jquery-1.10.2.min.js")
+    script(type="text/javascript",src="jquery.patch.js")
   if lib.d3js
     script(type="text/javascript",src="//d3js.org/d3.v3.min.js")
   if lib.angular
@@ -29,6 +30,7 @@ else
   //- from local
   if lib.jquery
     script(type="text/javascript",src="#{assets}/jquery/1.10.2/jquery.min.js")
+    script(type="text/javascript",src="jquery.patch.js")
   if lib.d3js
     script(type="text/javascript",src="#{assets}/d3js/3.3.11/d3.v3.min.js")
   if lib.angular
