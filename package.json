@@ -1,7 +1,8 @@
 {
   "author": "Kirby Wu",
   "name": "template",
-  "description": "simple, quick template for bootstrap a page",
+  "main": "main.js",
+  "description": "simple, quick template for bootstrap a electron app",
   "version": "0.0.1",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
