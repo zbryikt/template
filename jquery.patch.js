@@ -1,1 +1,1 @@
-window.$ = window.jQuery = require("./assets/jquery/1.10.2/jquery.min.js");
+if(typeof require!='undefined' && require!==null) window.$=window.jQuery=require("./assets/jquery/1.10.2/jquery.min.js")
