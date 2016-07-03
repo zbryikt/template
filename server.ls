@@ -1,5 +1,8 @@
-require! <[chokidar http fs path jade stylus]>
+require! <[chokidar http fs path jade stylus markdown]>
 require! 'uglify-js': uglify, LiveScript: lsc
+
+useMarkdown = true
+markdown = markdown.markdown
 
 RegExp.escape = -> it.replace /[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"
 
@@ -186,6 +189,7 @@ styl-tree = do
     ret
 
 ctype = (name=null) ->
+  if useMarkdown and /\.md$/.exec(name) => return \text/html
   ret = /\.([^.]+)$/.exec name
   return \application/octet-stream if not ret or not ret.1 or not type-table[ret.1]
   return type-table[ret.1]
@@ -233,6 +237,11 @@ server = (req, res) ->
   console.log "[ GET ] #{file-path} (#{ctype file-path})"
 
   buf = fs.readFileSync file-path
+  if useMarkdown =>
+    if /\.md$/.exec(file-path) =>
+      buf = markdown.toHTML(buf.toString!)
+      buf = '<link rel="stylesheet" type="text/css" href="/assets/markdown-air/air.css"></link>' + buf
+
   res.writeHead 200, do
     "Content-Length": buf.length
     "Content-Type": ctype file-path
