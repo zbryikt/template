@@ -236,14 +236,20 @@ server = (req, res) ->
     return res.end "#{req.url} not found"
   console.log "[ GET ] #{file-path} (#{ctype file-path})"
 
+  length = 0
   buf = fs.readFileSync file-path
   if useMarkdown =>
     if /\.md$/.exec(file-path) =>
-      buf = markdown.toHTML(buf.toString!)
-      buf = '<link rel="stylesheet" type="text/css" href="/assets/markdown-air/air.css"></link>' + buf
+      buf = markdown.toHTML(buf.toString!).toString!
+      buf = [
+        '<meta charset="utf-8">'
+        '<link rel="stylesheet" type="text/css" href="/assets/markdown-air/air.css"></link>'
+        buf
+      ].join("")
+      length = Buffer.byteLength buf, 'utf-8'
 
   res.writeHead 200, do
-    "Content-Length": buf.length
+    "Content-Length": length or buf.length
     "Content-Type": ctype file-path
   res.end buf
 
