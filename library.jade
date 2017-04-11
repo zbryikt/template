@@ -42,6 +42,15 @@ if use.cdn
   if lib.reactjs
     script(type="text/javascript",src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js")
     script(type="text/javascript",src="//cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js")
+  if lib.revealjs
+    link(rel="stylesheet",type="text/css",href="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/reveal.min.css")
+    link(rel="stylesheet",type="text/css",href="//cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/css/theme/white.min.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.3.0/js/reveal.min.js")
+
+  if lib.ionrangeslider
+    link(rel="stylesheet",type="text/css",href="//cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.7/css/ion.rangeSlider.min.css")
+    link(rel="stylesheet",type="text/css",href="//cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.7/css/ion.rangeSlider.skinFlat.css")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.7/js/ion.rangeSlider.min.js")
 else
   //- from local
   if lib.jquery
@@ -65,4 +74,8 @@ else
     link(rel="stylesheet",type="text/css",href="#{assets}/revealjs/3.3.0/css/reveal.css")
     link(rel="stylesheet",type="text/css",href="#{assets}/revealjs/3.3.0/css/theme/white.css")
     script(src="#{assets}/revealjs/3.3.0/js/reveal.js")
+  if lib.ionrangeslider
+    link(rel="stylesheet",type="text/css",href="#{assets}/ion-rangeslider/2.1.7/css/ion.rangeSlider.css")
+    link(rel="stylesheet",type="text/css",href="#{assets}/ion-rangeslider/2.1.7/css/ion.rangeSlider.skinFlat.css")
+    script(src="#{assets}/ion-rangeslider/2.1.7/js/ion.rangeSlider.min.js")
 
