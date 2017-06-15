@@ -17,9 +17,12 @@ if use.og
   meta(property="og:url",content=og.url)
   meta(property="og:image",content=og.thumbnail.url)
   meta(property="og:description",content=og.description)
-  meta(property="og:article:author",content=og.author)
-  meta(property="og:article:section",content=og.section)
+  meta(property="article:author",content=og.author)
+  meta(property="article:section",content=og.section)
   meta(name="keywords",content=og.keyword)
+if fb
+  meta(property="fb:app_id",content=fb.app_id)
+  meta(property="fb:admins",content=fb.admins)
 
 if use.favicon
     link(rel="icon",type="image/x-icon",href="#{favicon}")
