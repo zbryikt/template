@@ -321,14 +321,17 @@ update-file = ->
   if type == \jade => 
     des = src.replace /\.jade$/, ".html"
     try 
+      code = fs.read-file-sync src .toString!
+      if /^\/\/- module ?/.exec(code) => return
       desdir = path.dirname(des)
       if !fs.exists-sync(desdir) or !fs.stat-sync(desdir).is-directory! => mkdir-recurse desdir
-      fs.write-file-sync des, jade.render (fs.read-file-sync src .toString!),{filename: src, basedir: path.join(cwd)}
+      fs.write-file-sync des, jade.render code, {filename: src, basedir: path.join(cwd)}
       console.log "[BUILD] #src --> #des"
     catch
       console.log "[BUILD] #src failed: "
       console.log e.message
     return 
+
 
 watcher = chokidar.watch watch-path, ignored: ignore-func, persistent: true
   .on \add, update-file
