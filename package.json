@@ -15,14 +15,14 @@
   "scripts": {
     "start": "node_modules/.bin/lsc server.ls",
     "restart": "node_modules\\.bin\\lsc server.ls",
-    "prepare": "npm install chokidar@0.8.0"
+    "prepare": "npm install chokidar@1.7.0"
   },
   "dependencies": {
     "LiveScript": ">=1.2.0",
     "jade": "=1.11.0",
-    "chokidar": "=1.0.3",
+    "chokidar": "=1.7.0",
     "stylus": "=0.50.0",
-    "uglify-js": "=2.4.16",
+    "uglify-js": "=3.2.0",
     "markdown": "=0.5.0"
   }
 }
