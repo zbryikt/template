@@ -1,4 +1,4 @@
-require! <[chokidar http fs path jade stylus markdown]>
+require! <[chokidar http fs path pug stylus markdown js-yaml]>
 require! 'uglify-js': uglify, LiveScript: lsc
 
 useMarkdown = true
@@ -9,6 +9,20 @@ RegExp.escape = -> it.replace /[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"
 cwd = path.resolve process.cwd!
 cwd-re = new RegExp RegExp.escape "#cwd#{if cwd[* - 1]=='/' => "" else \/}"
 
+pug-extapi = do
+  md: -> markdown.toHTML it
+  yaml: -> js-yaml.safe-load fs.read-file-sync it
+  yamls: (dir) ->
+    ret = fs.readdir-sync dir
+      .map -> "#dir/#it"
+      .filter -> /\.yaml$/.exec(it)
+      .map ->
+        try
+          js-yaml.safe-load(fs.read-file-sync it)
+        catch e
+          console.log "[ERROR@#it]: ", e
+    return ret
+
 pad = -> if "#it".length < 2 => "0#it" else "#it"
 now = -> new Date! |> -> 
   "[#{pad(it.getMonth! + 1)}/#{pad(it.getDate!)}" +
@@ -16,7 +30,7 @@ now = -> new Date! |> ->
 
 _log = console.log
 console.log = (...arg) -> _log.apply null, [now!] ++ arg
-ignore-list = [/^server.ls$/, /^library.jade$/, /^\.[^/]+/, /^node_modules\//,/^assets\//]
+ignore-list = [/^server.ls$/, /^library.pug/, /^\.[^/]+/, /^node_modules\//,/^assets\//]
 ignore-func = (f) -> if f => ignore-list.filter(-> it.exec f.replace(cwd-re, "")replace(/^\.\/+/, ""))length else 0
 
 type-table =
@@ -198,7 +212,7 @@ ftype = ->
   switch
   | /\.ls$/.exec it => "ls"
   | /\.styl/.exec it => "styl"
-  | /\.jade$/.exec it => "jade"
+  | /\.pug/.exec it => "pug"
   | otherwise => "other"
 
 # assign functions to route-table for server side script routing
@@ -267,7 +281,9 @@ update-file = ->
       try
         files = fs.readdir-sync \src/ls/ .map -> "src/ls/#it"
         files = files.filter -> (/\/\./.exec it) == null
-        result = [uglify.minify(lsc.compile(fs.read-file-sync(file)toString!,{bare:true}),{fromString:true}).code for file in files].join("")
+        #result = [uglify.minify(lsc.compile(fs.read-file-sync(file)toString!,{bare:true}),{fromString:true}).code for file in files].join("")
+        # uglify gives undefined. debug this later...
+        result = [lsc.compile(fs.read-file-sync(file)toString!,{bare:true}) for file in files].join("")
         fs.write-file-sync "build.min.js", result
         console.log "[BUILD] #src --> build.min.js"
       catch
@@ -280,7 +296,8 @@ update-file = ->
         mkdir-recurse path.dirname(des)
         fs.write-file-sync(
           des,
-          uglify.minify(lsc.compile(fs.read-file-sync(src)toString!,{bare:true}),{fromString:true}).code
+          # uglify gives undefined. debug this later...
+          lsc.compile(fs.read-file-sync(src)toString!,{bare:true})
         )
         console.log "[BUILD] #src --> #des"
       catch
@@ -320,14 +337,14 @@ update-file = ->
         console.log "[BUILD]   #src failed: "
         console.log e.message
 
-  if type == \jade => 
-    des = src.replace /\.jade$/, ".html"
+  if type == \pug => 
+    des = src.replace /\.pug/, ".html"
     try 
       code = fs.read-file-sync src .toString!
       if /^\/\/- ?(module|view) ?/.exec(code) => return
       desdir = path.dirname(des)
       if !fs.exists-sync(desdir) or !fs.stat-sync(desdir).is-directory! => mkdir-recurse desdir
-      fs.write-file-sync des, jade.render code, {filename: src, basedir: path.join(cwd)}
+      fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd)} <<< pug-extapi
       console.log "[BUILD] #src --> #des"
     catch
       console.log "[BUILD] #src failed: "
