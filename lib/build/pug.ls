@@ -9,7 +9,7 @@ main = do
       des = path.normalize(src.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))
       try
         code = fs.read-file-sync src .toString!
-        if /^\/\/- ?(module|view) ?/.exec(code) => return
+        if /^\/\/- ?(module|view) ?/.exec(code) => continue
         desdir = path.dirname(des)
         fs-extra.ensure-dir-sync desdir
         fs.write-file-sync des, pug.render code, {filename: src, basedir: path.dirname(path.join(cwd, src))}
@@ -17,6 +17,6 @@ main = do
       catch
         console.log "[BUILD] #src failed: "
         console.log e.message
-      return
+    return
 
 module.exports = main

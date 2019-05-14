@@ -16,7 +16,7 @@ main = do
       catch
         console.log "[BUILD] #src failed: "
         console.log e.message
-      return
+    return
 
 module.exports = main
 

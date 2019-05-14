@@ -9,7 +9,7 @@ main = do
       des = path.normalize(src.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))
       try
         code = fs.read-file-sync src .toString!
-        if /^\/\/- ?(module) ?/.exec(code) => return
+        if /^\/\/- ?(module) ?/.exec(code) => continue
         desdir = path.dirname(des)
         fs-extra.ensure-dir-sync desdir
         stylus code
@@ -24,6 +24,6 @@ main = do
       catch
         console.log "[BUILD] #src failed: "
         console.log e.message
-      return
+    return
 
 module.exports = main
