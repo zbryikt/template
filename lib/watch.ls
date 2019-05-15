@@ -1,4 +1,4 @@
-require! <[chokidar path ./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc]>
+require! <[chokidar path debounce.js ./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc]>
 
 PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
@@ -20,13 +20,20 @@ watch = do
 
   handle: {}
   on: (type, cb) -> @handle[][type].push cb
+  pending: {}
   update: (f) ->
     list = if Array.isArray(f) => f else [f]
     list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
-    list
-      .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
-      .filter -> it.1
-      .map (v) ~> @handle[][v.1.1].map (cb) -> cb v.0
+    list.map ~> @pending[it] = true
+    _ = debounce ~>
+      list = [k for k,v of @pending]
+      @pending = {}
+      list
+        .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
+        .filter -> it.1
+        .map (v) ~> @handle[][v.1.1].map (cb) -> cb v.0
+    _!
+
 
 watch.on \pug, (n) ->
   PugTree.parse n
