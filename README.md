@@ -5,7 +5,6 @@
  * simple web server
  * easy to extend with API
  * auto watch / build, recursive tree parsing
- * support indir building or src / static building.
  * as a module, but extensible.
 
 
@@ -31,6 +30,12 @@
      "port": 3012
    }
    ```
+
+
+## TODO
+
+ * support both indir building or src / static building.
+ * api style invocation
 
 
 ## License
