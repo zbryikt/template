@@ -12,6 +12,7 @@ watch = do
     @watcher = chokidar.watch \src, cfg
       .on \add, (~> @update it)
       .on \change, (~> @update it)
+    console.log "[WATCHER] watching src for file change".cyan
   handle: {}
   on: (type, cb) -> @handle[][type].push cb
   update: (f) ->

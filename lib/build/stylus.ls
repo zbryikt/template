@@ -22,8 +22,8 @@ main = do
             fs.write-file-sync des, css
             console.log "[BUILD] #src --> #des"
       catch
-        console.log "[BUILD] #src failed: "
-        console.log e.message
+        console.log "[BUILD] #src failed: ".red
+        console.log e.message.toString!red
     return
 
 module.exports = main

@@ -1,4 +1,4 @@
-require! <[fs fs-extra LiveScript path]>
+require! <[fs fs-extra LiveScript path colors]>
 
 cwd = path.resolve process.cwd!
 
@@ -14,8 +14,8 @@ main = do
         fs.write-file-sync des, LiveScript.compile(fs.read-file-sync(src)toString!,{bare:true})
         console.log "[BUILD] #src --> #des"
       catch
-        console.log "[BUILD] #src failed: "
-        console.log e.message
+        console.log "[BUILD] #src failed: ".red
+        console.log e.message.toString!red
     return
 
 module.exports = main

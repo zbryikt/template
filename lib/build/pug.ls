@@ -15,8 +15,8 @@ main = do
         fs.write-file-sync des, pug.render code, {filename: src, basedir: path.dirname(path.join(cwd, src))}
         console.log "[BUILD] #src --> #des"
       catch
-        console.log "[BUILD] #src failed: "
-        console.log e.message
+        console.log "[BUILD] #src failed: ".red
+        console.log e.message.toString!red
     return
 
 module.exports = main
