@@ -26,9 +26,11 @@
    },
    ```
  * optional config.json in root dir for altering default port and other config:
+   ```
    {
      "port": 3012
    }
+   ```
 
 
 ## License
