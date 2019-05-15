@@ -22,6 +22,7 @@ watch = do
   on: (type, cb) -> @handle[][type].push cb
   pending: {}
   update: (f) ->
+    f = f.split(path.sep).join('/')
     # fetch pre-dependency, and put in pending
     list = if Array.isArray(f) => f else [f]
     list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
