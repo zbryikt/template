@@ -25,10 +25,10 @@ watch = do
     # fetch pre-dependency, and put in pending
     list = if Array.isArray(f) => f else [f]
     list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
-    list.map ~> @pending[it] = true
+    list.map ~> @pending{}[it][f] = true
     _ = debounce ~>
       # get pending files and handle them
-      [list,cat, @pending] = [[k for k,v of @pending], {}, {}]
+      [list, cat, @pending] = [[k for k of @pending], {}, {}]
       list = list
         .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
         .filter -> it.1
@@ -51,6 +51,6 @@ process = (parser, builder) -> (list) ->
 
 watch.on \pug, process(PugTree, pug)
 watch.on \stylus, process(StylusTree, stylus)
-watch.on \ls, -> lsc.build if Array.isArray(it) => it else [it]
+watch.on \ls, (list) -> lsc.build list
 
 module.exports = watch
