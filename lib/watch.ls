@@ -22,31 +22,35 @@ watch = do
   on: (type, cb) -> @handle[][type].push cb
   pending: {}
   update: (f) ->
+    # fetch pre-dependency, and put in pending
     list = if Array.isArray(f) => f else [f]
     list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
     list.map ~> @pending[it] = true
     _ = debounce ~>
-      list = [k for k,v of @pending]
-      @pending = {}
-      list
+      # get pending files and handle them
+      [list,cat, @pending] = [[k for k,v of @pending], {}, {}]
+      list = list
         .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
         .filter -> it.1
-        .map (v) ~> @handle[][v.1.1].map (cb) -> cb v.0
+        .map -> cat[][it.1.1].push it.0
+      for k,v of cat => @handle[][k].map (cb) -> cb v
     _!
 
+# Process Wrapper 
+#  - list: candidate files
+#  - for each n in list:
+#      parse n ( what files n depends on? )
+#      add dependency of n ( n depends on f )
+#      list affected files from n.
+process = (parser, builder) -> (list) ->
+  files = {}
+  for n in list =>
+    parser.parse n .map (f) -> watch.depend.add n, f
+    parser.affect(n).map -> files[it] = true
+  builder.build [k for k of files]
 
-watch.on \pug, (n) ->
-  PugTree.parse n
-    .map (f) -> watch.depend.add n, f
-  list = PugTree.affect n
-  pug.build list
-
-watch.on \styl, (n) ->
-  StylusTree.parse n
-    .map (f) -> watch.depend.add n, f
-  list = StylusTree.affect n
-  stylus.build list
-
-watch.on \ls, -> lsc.build [it]
+watch.on \pug, process(PugTree, pug)
+watch.on \stylus, process(StylusTree, stylus)
+watch.on \ls, -> lsc.build if Array.isArray(it) => it else [it]
 
 module.exports = watch
