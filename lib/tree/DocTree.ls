@@ -17,6 +17,7 @@ DocTree.prototype = Object.create(Object.prototype) <<< do
     @depend.by[f] = ret = @parser content
       .map ~> path.join(@root, path.normalize(if it.0 == \/ => it else path.join(dir, it)))
     ret.map ~> @depend.on[][it].push f
+    ret
 
   affect: (list) ->
     if !Array.isArray(list) => list = [list]

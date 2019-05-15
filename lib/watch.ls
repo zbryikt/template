@@ -9,27 +9,37 @@ watch = do
     cfg = do
       persistent: true
       ignored: (f) ~> !@ignores.map(-> it.exec(path.basename f)).length
-    @watcher = chokidar.watch \src, cfg
+    @watcher = chokidar.watch <[src static]>, cfg
       .on \add, (~> @update it)
       .on \change, (~> @update it)
     console.log "[WATCHER] watching src for file change".cyan
+  depend:
+    on: {}
+    # add dependency: a depends on b
+    add: (a, b) -> if !(a in @on[][b]) => @on[][b].push a
+
   handle: {}
   on: (type, cb) -> @handle[][type].push cb
   update: (f) ->
-    if !(ret = /\.(.+)$/.exec(f)) => return
-    @handle[][ret.1].map (cb) -> cb f
+    list = if Array.isArray(f) => f else [f]
+    list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
+    list
+      .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
+      .filter -> it.1
+      .map (v) ~> @handle[][v.1.1].map (cb) -> cb v.0
 
-watch.on \pug, ->
-  PugTree.parse it
-  list = PugTree.affect it
+watch.on \pug, (n) ->
+  PugTree.parse n
+    .map (f) -> watch.depend.add n, f
+  list = PugTree.affect n
   pug.build list
 
-watch.on \styl, ->
-  StylusTree.parse it
-  list = StylusTree.affect it
+watch.on \styl, (n) ->
+  StylusTree.parse n
+    .map (f) -> watch.depend.add n, f
+  list = StylusTree.affect n
   stylus.build list
 
-watch.on \ls, ->
-  lsc.build [it]
+watch.on \ls, -> lsc.build [it]
 
 module.exports = watch
