@@ -22,21 +22,24 @@ watch = do
   on: (type, cb) -> @handle[][type].push cb
   pending: {}
   update: (f) ->
-    f = f.split(path.sep).join('/')
-    # fetch pre-dependency, and put in pending
-    list = if Array.isArray(f) => f else [f]
-    list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
-    list.map ~> @pending{}[it][f] = true
-    _ = debounce ~>
-      # get pending files and handle them
-      [list, cat, @pending] = [[k for k of @pending], {}, {}]
-      list = list
-        .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
-        .filter -> it.1
-        .map -> cat[][it.1.1].push it.0
-      for k,v of cat => @handle[][k].map (cb) -> cb v
-    _!
-
+    try
+      f = f.split(path.sep).join('/')
+      # fetch pre-dependency, and put in pending
+      list = if Array.isArray(f) => f else [f]
+      list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
+      list.map ~> @pending{}[it][f] = true
+      _ = debounce ~>
+        # get pending files and handle them
+        [list, cat, @pending] = [[k for k of @pending], {}, {}]
+        list = list
+          .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
+          .filter -> it.1
+          .map -> cat[][it.1.1].push it.0
+        for k,v of cat => @handle[][k].map (cb) -> cb v
+      _!
+    catch e
+      console.log "[WATCHER] Update failed with following information: ".red
+      console.log e
 # Process Wrapper 
 #  - list: candidate files
 #  - for each n in list:
