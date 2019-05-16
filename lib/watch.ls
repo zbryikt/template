@@ -51,7 +51,7 @@ process = (parser, builder) -> (list) ->
   builder.build [k for k of files]
 
 watch.on \pug, process(PugTree, pug)
-watch.on \stylus, process(StylusTree, stylus)
+watch.on \styl, process(StylusTree, stylus)
 watch.on \ls, (list) -> lsc.build list
 
 module.exports = watch
