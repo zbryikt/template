@@ -11,6 +11,7 @@ DocTree = (opt={})->
 DocTree.prototype = Object.create(Object.prototype) <<< do
   set-root: -> @root = it
   parse: (f) ->
+    if !fs.exists-sync(f) => return []
     content = fs.read-file-sync f .toString!
     dir = path.dirname path.relative(@root, f)
     if !@parser => return
