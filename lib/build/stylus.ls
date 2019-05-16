@@ -3,10 +3,14 @@ require! <[fs fs-extra stylus path]>
 cwd = path.resolve process.cwd!
 
 main = do
+  map: (list) ->
+    list
+      .filter -> /^src\/pug/.exec(it)
+      .map -> {src: it, des: path.normalize(it.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))}
   build: (list) ->
-    for src in list =>
-      if !/^src\/styl/.exec(src) => continue
-      des = path.normalize(src.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))
+    list = @map list
+    for {src,des} in list =>
+      if !fs.exists-sync(src) => continue
       try
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module) ?/.exec(code) => continue
@@ -25,5 +29,10 @@ main = do
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red
     return
+  unlink: (list) ->
+    list = @map list
+    for {src,des} in list =>
+      fs.unlink-sync des
+      console.log "[BUILD] #src --> #des deleted.".yellow
 
 module.exports = main

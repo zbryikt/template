@@ -3,10 +3,14 @@ require! <[fs fs-extra pug path]>
 cwd = path.resolve process.cwd!
 
 main = do
+  map: (list) ->
+    list
+      .filter -> /^src\/pug/.exec(it)
+      .map -> {src: it, des: path.normalize(it.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))}
   build: (list) ->
-    for src in list =>
-      if !/^src\/pug/.exec(src) => continue
-      des = path.normalize(src.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))
+    list = @map list
+    for {src,des} in list =>
+      if !fs.exists-sync(src) => continue
       try
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module|view) ?/.exec(code) => continue
@@ -18,5 +22,10 @@ main = do
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red
     return
+  unlink: (list) ->
+    list = @map list
+    for {src,des} in list =>
+      fs.unlink-sync des
+      console.log "[BUILD] #src --> #des deleted.".yellow
 
 module.exports = main

@@ -3,10 +3,14 @@ require! <[fs fs-extra LiveScript path colors]>
 cwd = path.resolve process.cwd!
 
 main = do
+  map: (list) ->
+    list
+      .filter -> /^src\/ls/.exec(it)
+      .map -> {src: it, des: path.normalize(it.replace(/^src\/ls/, "static/js/").replace(/\.ls/,".js"))}
   build: (list) ->
-    for src in list =>
-      if !/^src\/ls/.exec(src) => continue
-      des = path.normalize(src.replace(/^src\/ls/, "static/js/").replace(/\.ls/,".js"))
+    list = @map list
+    for {src,des} in list =>
+      if !fs.exists-sync(src) => continue
       try
         code = fs.read-file-sync src .toString!
         desdir = path.dirname(des)
@@ -17,6 +21,12 @@ main = do
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red
     return
+  unlink: (list) ->
+    list = @map list
+    for {src,des} in list =>
+      fs.unlink-sync des
+      console.log "[BUILD] #src --> #des deleted.".yellow
+
 
 module.exports = main
 

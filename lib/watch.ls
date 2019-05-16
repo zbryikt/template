@@ -12,15 +12,20 @@ watch = do
     @watcher = chokidar.watch <[src static]>, cfg
       .on \add, (~> @update it)
       .on \change, (~> @update it)
+      .on \unlink, (~> @unlink it)
     console.log "[WATCHER] watching src for file change".cyan
   depend:
     on: {}
     # add dependency: a depends on b
     add: (a, b) -> if !(a in @on[][b]) => @on[][b].push a
-
   handle: {}
   on: (type, cb) -> @handle[][type].push cb
   pending: {}
+  unlink: (f) -> 
+    ret = /\.(.+)$/.exec(f)
+    k = if !ret => "" else ret.1
+    @handle[]["unlink.#k"].map (cb) -> cb [f]
+    @update f
   update: (f) ->
     try
       f = f.split(path.sep).join('/')
@@ -33,13 +38,13 @@ watch = do
         [list, cat, @pending] = [[k for k of @pending], {}, {}]
         list = list
           .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
-          .filter -> it.1
-          .map -> cat[][it.1.1].push it.0
-        for k,v of cat => @handle[][k].map (cb) -> cb v
+          .map -> cat[][if it.1 => it.1.1 else ""].push it.0
+        for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
       _!
     catch e
       console.log "[WATCHER] Update failed with following information: ".red
       console.log e
+
 # Process Wrapper 
 #  - list: candidate files
 #  - for each n in list:
@@ -53,8 +58,11 @@ process = (parser, builder) -> (list) ->
     parser.affect(n).map -> files[it] = true
   builder.build [k for k of files]
 
-watch.on \pug, process(PugTree, pug)
-watch.on \styl, process(StylusTree, stylus)
-watch.on \ls, (list) -> lsc.build list
+watch.on \build.pug, process(PugTree, pug)
+watch.on \build.styl, process(StylusTree, stylus)
+watch.on \build.ls, -> lsc.build it
+watch.on \unlink.pug, -> pug.unlink it
+watch.on \unlink.styl, -> stylus.unlink it
+watch.on \unlink.ls, -> lsc.unlink it
 
 module.exports = watch
