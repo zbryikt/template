@@ -1,4 +1,4 @@
-require! <[fs fs-extra LiveScript path colors]>
+require! <[fs fs-extra LiveScript path colors ./aux]>
 
 cwd = path.resolve process.cwd!
 
@@ -10,7 +10,7 @@ main = do
   build: (list) ->
     list = @map list
     for {src,des} in list =>
-      if !fs.exists-sync(src) => continue
+      if !fs.exists-sync(src) or aux.newer(des, src) => continue
       try
         code = fs.read-file-sync src .toString!
         desdir = path.dirname(des)

@@ -1,4 +1,4 @@
-require! <[fs fs-extra pug path]>
+require! <[fs fs-extra pug path ./aux]>
 
 cwd = path.resolve process.cwd!
 
@@ -10,7 +10,7 @@ main = do
   build: (list) ->
     list = @map list
     for {src,des} in list =>
-      if !fs.exists-sync(src) => continue
+      if !fs.exists-sync(src) or aux.newer(des, src) => continue
       try
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module|view) ?/.exec(code) => continue
