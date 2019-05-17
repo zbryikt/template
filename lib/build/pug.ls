@@ -16,7 +16,7 @@ main = do
         if /^\/\/- ?(module|view) ?/.exec(code) => continue
         desdir = path.dirname(des)
         fs-extra.ensure-dir-sync desdir
-        fs.write-file-sync des, pug.render code, {filename: src, basedir: path.dirname(path.join(cwd, src))}
+        fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')}
         console.log "[BUILD] #src --> #des"
       catch
         console.log "[BUILD] #src failed: ".red
