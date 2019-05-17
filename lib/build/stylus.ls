@@ -5,7 +5,7 @@ cwd = path.resolve process.cwd!
 main = do
   map: (list) ->
     list
-      .filter -> /^src\/pug/.exec(it)
+      .filter -> /^src\/styl/.exec(it)
       .map -> {src: it, des: path.normalize(it.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))}
   build: (list) ->
     list = @map list
