@@ -31,7 +31,7 @@ main = do
     return
   unlink: (list) ->
     list = @map list
-    for {src,des} in list =>
+    for {src,des} in list => if fs.exists-sync des =>
       fs.unlink-sync des
       console.log "[BUILD] #src --> #des deleted.".yellow
 
