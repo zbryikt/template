@@ -4,11 +4,13 @@ PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
 
 watch = do
-  ignores: [/^\./]
-  init: ->
+  ignores: ["^\."]
+  init: (opt={}) ->
     cfg = do
       persistent: true
-      ignored: (f) ~> !@ignores.map(-> it.exec(path.basename f)).length
+      ignored: (f) ~> @ignores.filter(-> it.exec(f)).length
+    if opt.ignores => @ignores = opt.ignores
+    @ignores = @ignores.map -> new RegExp(it)
     @watcher = chokidar.watch <[src static]>, cfg
       .on \add, (~> @update it)
       .on \change, (~> @update it)
