@@ -54,6 +54,10 @@
  * api style invocation
 
 
+## Note
+
+ * To optimize pug building, keep an eye on the pug inclusion tree, and prevent unnecessary include if possible.
+
 ## License
 
 MIT

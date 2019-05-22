@@ -7,10 +7,10 @@ main = do
     list
       .filter -> /^src\/styl/.exec(it)
       .map -> {src: it, des: path.normalize(it.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))}
-  build: (list) ->
+  build: (list, caused-by) ->
     list = @map list
     for {src,des} in list =>
-      if !fs.exists-sync(src) or aux.newer(des, src) => continue
+      if !fs.exists-sync(src) or aux.newer(des, [src] ++ (caused-by[src] or [])) => continue
       try
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module) ?/.exec(code) => continue

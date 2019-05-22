@@ -40,7 +40,7 @@ watch = do
       list = if Array.isArray(f) => f else [f]
       list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
       list.map ~> @pending{}[it][f] = true
-      @update-debounce!
+      @update-debounced!
     catch e
       console.log "[WATCHER] Update failed with following information: ".red
       console.log e
@@ -55,8 +55,8 @@ process = (parser, builder) -> (list) ->
   files = {}
   for n in list =>
     parser.parse n .map (f) -> watch.depend.add n, f
-    parser.affect(n).map -> files[it] = true
-  builder.build [k for k of files]
+    parser.affect(n).map -> files[][it].push n
+  builder.build [k for k of files], files
 
 watch.on \build.pug, process(PugTree, pug)
 watch.on \build.styl, process(StylusTree, stylus)
