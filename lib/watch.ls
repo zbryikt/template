@@ -26,6 +26,13 @@ watch = do
     k = if !ret => "" else ret.1
     @handle[]["unlink.#k"].map (cb) -> cb [f]
     @update f
+  update-debounced: debounce ->
+    # get pending files and handle them
+    [list, cat, @pending] = [[k for k of @pending], {}, {}]
+    list = list
+      .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
+      .map -> cat[][if it.1 => it.1.1 else ""].push it.0
+    for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
   update: (f) ->
     try
       f = f.split(path.sep).join('/')
@@ -33,14 +40,7 @@ watch = do
       list = if Array.isArray(f) => f else [f]
       list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
       list.map ~> @pending{}[it][f] = true
-      _ = debounce ~>
-        # get pending files and handle them
-        [list, cat, @pending] = [[k for k of @pending], {}, {}]
-        list = list
-          .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
-          .map -> cat[][if it.1 => it.1.1 else ""].push it.0
-        for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
-      _!
+      @update-debounce!
     catch e
       console.log "[WATCHER] Update failed with following information: ".red
       console.log e
