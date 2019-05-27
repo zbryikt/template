@@ -19,7 +19,13 @@ watch = do
     @assets opt.assets or []
     console.log "[WATCHER] watching src for file change".cyan
   assets: (assets = []) ->
-    desdir = (f) -> path.join(\static/assets, path.relative(\node_modules, path.dirname(f)), \..)
+    modpath = \node_modules
+    while modpath.length < 50 =>
+      if fs.exists-sync(modpath) => break
+      modpath = path.join('..', modpath)
+    if !fs.exists-sync(modpath) => return console.log "[ASSETS] node_modules dir not found.".red
+
+    desdir = (f) -> path.join(\static/assets, path.relative(modpath, path.dirname(f)), \..)
     add = (src) ->
       fs-extra.ensure-dir-sync desdir(src)
       des = path.join(desdir(src), path.basename(src))
@@ -27,11 +33,11 @@ watch = do
       console.log "[ASSETS] #src -> #des "
     remove = (src) ->
       des = path.join(desdir(file), path.basename(file))
-      if !fs.exist-sync(des) => return
+      if !fs.exists-sync(des) => return
       fs.unlink-sync des
       console.log "[ASSETS] #src -> #des deleted.".yellow
 
-    chokidar.watch assets.map(-> "node_modules/#it/dist/"), {persistent: true}
+    chokidar.watch assets.map(-> "#modpath/#it/dist/"), {persistent: true}
       .on \add, add
       .on \change, add
       .on \unlink, remove
