@@ -1,4 +1,5 @@
-require! <[chokidar path debounce.js ./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc]>
+require! <[fs fs-extra chokidar path debounce.js]>
+require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc]>
 
 PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
@@ -9,13 +10,32 @@ watch = do
     cfg = do
       persistent: true
       ignored: (f) ~> @ignores.filter(-> it.exec(f)).length
-    if opt.ignores => @ignores = opt.ignores
+    if opt.{}watcher.ignores => @ignores = opt.{}watcher.ignores
     @ignores = @ignores.map -> new RegExp(it)
     @watcher = chokidar.watch <[src static]>, cfg
       .on \add, (~> @update it)
       .on \change, (~> @update it)
       .on \unlink, (~> @unlink it)
+    @assets opt.assets or []
     console.log "[WATCHER] watching src for file change".cyan
+  assets: (assets = []) ->
+    desdir = (f) -> path.join(\static/assets, path.relative(\node_modules, path.dirname(f)), \..)
+    add = (src) ->
+      fs-extra.ensure-dir-sync desdir(src)
+      des = path.join(desdir(src), path.basename(src))
+      fs-extra.copy-file-sync src, des
+      console.log "[ASSETS] #src -> #des "
+    remove = (src) ->
+      des = path.join(desdir(file), path.basename(file))
+      if !fs.exist-sync(des) => return
+      fs.unlink-sync des
+      console.log "[ASSETS] #src -> #des deleted.".yellow
+
+    chokidar.watch assets.map(-> "node_modules/#it/dist/"), {persistent: true}
+      .on \add, add
+      .on \change, add
+      .on \unlink, remove
+    
   depend:
     on: {}
     # add dependency: a depends on b

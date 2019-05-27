@@ -5,7 +5,7 @@ main = do
   set-opt: (o) -> @opt <<< o
   init: ->
     server.init @opt
-    watch.init @opt.watcher
+    watch.init @opt
 
 if require.main == module =>
   if fs.exists-sync('config.json') =>
