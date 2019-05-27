@@ -1,5 +1,5 @@
 require! <[fs fs-extra chokidar path debounce.js]>
-require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc]>
+require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc ./build/aux]>
 
 PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
@@ -27,8 +27,9 @@ watch = do
 
     desdir = (f) -> path.join(\static/assets, path.relative(modpath, path.dirname(f)), \..)
     add = (src) ->
-      fs-extra.ensure-dir-sync desdir(src)
       des = path.join(desdir(src), path.basename(src))
+      if !aux.newer(src, [des]) => return
+      fs-extra.ensure-dir-sync desdir(src)
       fs-extra.copy-file-sync src, des
       console.log "[ASSETS] #src -> #des "
     remove = (src) ->
