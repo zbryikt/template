@@ -32,7 +32,7 @@ watch = do
       fs-extra.copy-file-sync src, des
       console.log "[ASSETS] #src -> #des "
     remove = (src) ->
-      des = path.join(desdir(file), path.basename(file))
+      des = path.join(desdir(src), path.basename(src))
       if !fs.exists-sync(des) => return
       fs.unlink-sync des
       console.log "[ASSETS] #src -> #des deleted.".yellow
