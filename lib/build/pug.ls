@@ -3,7 +3,7 @@ require! <[fs fs-extra pug path js-yaml markdown ./aux]>
 cwd = path.resolve process.cwd!
 
 pug-extapi = do
-  md: -> markdown.toHTML it
+  md: -> markdown.markdown.toHTML it
   yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
     ret = fs.readdir-sync dir
