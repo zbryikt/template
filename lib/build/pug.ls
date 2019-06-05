@@ -1,6 +1,20 @@
-require! <[fs fs-extra pug path ./aux]>
+require! <[fs fs-extra pug path js-yaml ./aux]>
 
 cwd = path.resolve process.cwd!
+
+pug-extapi = do
+  yaml: -> js-yaml.safe-load fs.read-file-sync it
+  yamls: (dir) ->
+    ret = fs.readdir-sync dir
+      .map -> "#dir/#it"
+      .filter -> /\.yaml$/.exec(it)
+      .map ->
+        try
+          js-yaml.safe-load(fs.read-file-sync it)
+        catch e
+          console.log "[ERROR@#it]: ", e
+    return ret
+
 
 main = do
   map: (list) ->
@@ -16,7 +30,7 @@ main = do
         if /^\/\/- ?(module|view) ?/.exec(code) => continue
         desdir = path.dirname(des)
         fs-extra.ensure-dir-sync desdir
-        fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')}
+        fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
         console.log "[BUILD] #src --> #des"
       catch
         console.log "[BUILD] #src failed: ".red
