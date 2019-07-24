@@ -1,6 +1,7 @@
 {
   "author": "Kirby Wu",
   "name": "template",
+  "license": "MIT",
   "description": "simple, quick template for bootstrap a page",
   "version": "0.0.1",
   "homepage": "https://github.com/zbryikt/template",
