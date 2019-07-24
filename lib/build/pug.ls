@@ -1,6 +1,10 @@
-require! <[fs fs-extra pug LiveScript stylus path js-yaml markdown ./aux]>
+require! <[fs fs-extra pug LiveScript stylus path js-yaml marked ./aux]>
 
 cwd = path.resolve process.cwd!
+
+md-options = html: {breaks: true, renderer: new marked.Renderer!}
+marked.set-options md-options.html
+
 
 pug-extapi = do
   filters: do
@@ -12,8 +16,7 @@ pug-extapi = do
            a = (a.string or a.val).split(' ')
            return new stylus.nodes.Unit(a.indexOf b.val)
          .render!
-
-  md: -> markdown.markdown.toHTML it
+    'md': (text, opt) -> marked text
   yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
     ret = fs.readdir-sync dir
