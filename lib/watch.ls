@@ -5,7 +5,7 @@ PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
 
 watch = do
-  ignores: ["^\."]
+  ignores: ["^\..*\.swp$"]
   init: (opt={}) ->
     cfg = do
       persistent: true
