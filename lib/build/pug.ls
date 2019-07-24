@@ -1,8 +1,18 @@
-require! <[fs fs-extra pug path js-yaml markdown ./aux]>
+require! <[fs fs-extra pug LiveScript stylus path js-yaml markdown ./aux]>
 
 cwd = path.resolve process.cwd!
 
 pug-extapi = do
+  filters: do
+    'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true})
+    'stylus': (text, opt) ->
+       stylus(text)
+         .set \filename, 'inline'
+         .define 'index', (a,b) ->
+           a = (a.string or a.val).split(' ')
+           return new stylus.nodes.Unit(a.indexOf b.val)
+         .render!
+
   md: -> markdown.markdown.toHTML it
   yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
