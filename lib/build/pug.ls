@@ -55,5 +55,6 @@ main = do
     for {src,des} in list => if fs.exists-sync des =>
       fs.unlink-sync des
       console.log "[BUILD] #src --> #des deleted.".yellow
+  extapi: pug-extapi
 
 module.exports = main
