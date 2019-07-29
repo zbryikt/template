@@ -58,16 +58,18 @@ watch = do
   update-debounced: debounce ->
     # get pending files and handle them
     [list, cat, @pending] = [[k for k of @pending], {}, {}]
-    list = list
-      .map (f) ~> [f, (ret = /\.(.+)$/.exec(f))]
+    list
+      .map (f) ~> [f, (ret = /\.([^.]+)$/.exec(f))]
       .map -> cat[][if it.1 => it.1.1 else ""].push it.0
     for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
+    @handle[]["build"].map -> (cb) -> cb list
+
   update: (f) ->
     try
       f = f.split(path.sep).join('/')
       # fetch pre-dependency, and put in pending
       list = if Array.isArray(f) => f else [f]
-      list ++= list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])
+      list = (list ++ list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])).filter(->it)
       list.map ~> @pending{}[it][f] = true
       @update-debounced!
     catch e
