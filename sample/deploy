@@ -4,7 +4,7 @@ rm -rf _public
 git clone $(git remote get-url origin) --depth 1 -b gh-pages _public
 cd _public
 git rm -r *
-cp -R ../static/ ./
+cp -R ../static/* ./
 git add *
 git commit -m "regen for $REV"
 git push
