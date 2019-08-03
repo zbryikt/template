@@ -18,6 +18,9 @@ main = do
         fs-extra.ensure-dir-sync desdir
         stylus code
           .set \filename, src
+          .define 'indexof', (a,b) ->
+            a = (a.string or a.val).split(' ')
+            return new stylus.nodes.Unit(a.indexOf b.val)
           .render (e, css) ->
             if e => throw e
             fs.write-file-sync des, css
