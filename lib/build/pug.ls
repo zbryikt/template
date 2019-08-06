@@ -40,12 +40,14 @@ main = do
     for {src,des} in list =>
       if !fs.exists-sync(src) or aux.newer(des, src) => continue
       try
+        t1 = Date.now!
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module|view) ?/.exec(code) => continue
         desdir = path.dirname(des)
         fs-extra.ensure-dir-sync desdir
         fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-        console.log "[BUILD] #src --> #des"
+        t2 = Date.now!
+        console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
       catch
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red

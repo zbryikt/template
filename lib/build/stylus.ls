@@ -12,6 +12,7 @@ main = do
     for {src,des} in list =>
       if !fs.exists-sync(src) or aux.newer(des, [src] ++ (caused-by[src] or [])) => continue
       try
+        t1 = Date.now!
         code = fs.read-file-sync src .toString!
         if /^\/\/- ?(module) ?/.exec(code) => continue
         desdir = path.dirname(des)
@@ -21,7 +22,8 @@ main = do
           .render (e, css) ->
             if e => throw e
             fs.write-file-sync des, css
-            console.log "[BUILD] #src --> #des"
+            t2 = Date.now!
+            console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
       catch
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red

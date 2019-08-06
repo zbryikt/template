@@ -1,7 +1,8 @@
+t1 = Date.now!
 require! <[fs ./lib/server ./lib/watch ./api/index]>
 
 main = do
-  opt: {port: 3000, api: index}
+  opt: {port: 3000, api: index, start-time: t1}
   set-opt: (o) -> @opt <<< o
   init: ->
     server.init @opt
