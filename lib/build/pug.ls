@@ -5,7 +5,6 @@ cwd = path.resolve process.cwd!
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
 marked.set-options md-options.html
 
-
 pug-extapi = do
   filters: do
     'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true})
@@ -17,6 +16,7 @@ pug-extapi = do
            return new stylus.nodes.Unit(a.indexOf b.val)
          .render!
     'md': (text, opt) -> marked text
+  md: marked
   yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
     ret = fs.readdir-sync dir
