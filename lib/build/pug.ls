@@ -35,6 +35,8 @@ main = do
     list
       .filter -> /^src\/pug/.exec(it)
       .map -> {src: it, des: path.normalize(it.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))}
+  compile: (src) ->
+    pug.compile fs.read-file-sync(src).toString!, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
   build: (list) ->
     list = @map list
     for {src,des} in list =>
