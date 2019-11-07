@@ -105,7 +105,7 @@ watch.on \unlink.ls, -> lsc.unlink it
 
 watch.custom do
   files: <[static bundle.json]>
-  ignored: (f) ~> watch.ignores.filter(-> it.exec(f)).length
+  ignored: (f) ~> watch.ignores.filter(-> it.exec(f)).length or /static\/(js|css)\/pack\//.exec(f)
   update: -> bundle.build [it]
   unlink: -> bundle.unlink [it]
 
