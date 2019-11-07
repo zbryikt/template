@@ -3,6 +3,7 @@ require! <[fs fs-extra LiveScript stylus path colors uglify-js uglifycss ./aux]>
 cwd = path.resolve process.cwd!
 
 bundle = {css: {}, js: {}}
+bundle-file = "bundle.json"
 
 build = ({name, list, type}) ->
   t1 = Date.now!
@@ -36,8 +37,8 @@ build = ({name, list, type}) ->
 main = do
   map: (list) ->
   build: (list) ->
-    if \bundle.json in list =>
-      bundle := JSON.parse(fs.read-file-sync 'bundle.json' .toString!)
+    if bundle-file in list =>
+      bundle := JSON.parse(fs.read-file-sync bundle-file .toString!)
       for type of bundle => for n,l of bundle[type] => bundle[type][n] = l.map -> "static/#it"
     task = {css: {}, js: {}}
     for type of bundle =>
@@ -49,7 +50,7 @@ main = do
       for name of task[type] =>
         out = "static/#type/pack/#name.#type"
         # out file is not newer than watched files? rebuild!
-        if aux.newer("bundle.json", [out], true) or (task[type][name].length and !aux.newer(out, task[type][name])) =>
+        if aux.newer(bundle-file, [out], true) or (task[type][name].length and !aux.newer(out, task[type][name])) =>
           promises.push build({type, name, list: bundle[type][name]})
     Promise.all promises
       .then (list) ->
