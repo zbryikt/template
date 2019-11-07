@@ -5,7 +5,7 @@ PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
 
 watch = do
-  ignores: ["^\..*\.swp$"]
+  ignores: [/^\..*\.swp$/]
   init: (opt={}) ->
     cfg = do
       persistent: true
@@ -105,6 +105,7 @@ watch.on \unlink.ls, -> lsc.unlink it
 
 watch.custom do
   files: <[static bundle.json]>
+  ignored: (f) ~> watch.ignores.filter(-> it.exec(f)).length
   update: -> bundle.build [it]
   unlink: -> bundle.unlink [it]
 
