@@ -56,8 +56,12 @@ main = do
   map: (list) ->
   build: (list) ->
     if bundle-file in list =>
-      bundle := JSON.parse(fs.read-file-sync bundle-file .toString!)
-      for type of bundle => for n,l of bundle[type] => bundle[type][n] = l.map -> path.join(\static,it)
+      try
+        bundle := JSON.parse(fs.read-file-sync bundle-file .toString!)
+        for type of bundle => for n,l of bundle[type] => bundle[type][n] = l.map -> path.join(\static,it)
+      catch e
+        console.log e
+        return
     for type of bundle =>
       for n,l of bundle[type] =>
         if !task[type][n] => task[type][n] = []
