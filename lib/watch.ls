@@ -1,5 +1,5 @@
 require! <[fs fs-extra chokidar path debounce.js]>
-require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc ./build/aux]>
+require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc ./build/aux ./build/bundle]>
 
 PugTree.set-root \src/pug
 StylusTree.set-root \src/styl
@@ -18,6 +18,12 @@ watch = do
       .on \unlink, (~> @unlink it)
     @assets opt.assets or []
     console.log "[WATCHER] watching src for file change".cyan
+  custom: ({files, update, unlink, ignored}) ->
+    w = chokidar.watch files, {persistent: true} <<< (if ignored => {ignored} else {})
+    w.on \add, -> update it
+    w.on \change, -> update it
+    w.on \unlink, -> unlink it
+
   assets: (assets = []) ->
     modpath = \node_modules
     while modpath.length < 50 =>
@@ -54,15 +60,16 @@ watch = do
     ret = /\.(.+)$/.exec(f)
     k = if !ret => "" else ret.1
     @handle[]["unlink.#k"].map (cb) -> cb [f]
+    @handle[]["unlink"].map (cb) -> cb [f]
     @update f
-  update-debounced: debounce ->
+  update-debounced: debounce 100, ->
     # get pending files and handle them
     [list, cat, @pending] = [[k for k of @pending], {}, {}]
     list
       .map (f) ~> [f, (ret = /\.([^.]+)$/.exec(f))]
       .map -> cat[][if it.1 => it.1.1 else ""].push it.0
     for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
-    @handle[]["build"].map -> (cb) -> cb list
+    @handle[]["build"].map (cb) -> cb list
 
   update: (f) ->
     try
@@ -95,5 +102,10 @@ watch.on \build.ls, -> lsc.build it
 watch.on \unlink.pug, -> pug.unlink it
 watch.on \unlink.styl, -> stylus.unlink it
 watch.on \unlink.ls, -> lsc.unlink it
+
+watch.custom do
+  files: <[static bundle.json]>
+  update: -> bundle.build [it]
+  unlink: -> bundle.unlink [it]
 
 module.exports = watch

@@ -1,0 +1,8 @@
+{
+  "css": {
+    "vendor": ["css/base.css"]
+  },
+  "js": {
+    "vendor": ["js/test.js"]
+  }
+}
