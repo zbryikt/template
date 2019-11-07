@@ -1,8 +1,9 @@
-require! <[fs fs-extra LiveScript stylus path colors uglify-js uglifycss ./aux]>
+require! <[fs fs-extra LiveScript stylus path colors uglify-js uglifycss ./aux debounce.js]>
 
 cwd = path.resolve process.cwd!
 
 bundle = {css: {}, js: {}}
+task = {css: {}, js: {}}
 bundle-file = "bundle.json"
 
 build = ({name, list, type}) ->
@@ -34,30 +35,34 @@ build = ({name, list, type}) ->
         size: fs.stat-sync(outfile).size
         size-min: fs.stat-sync(outfilemin).size
 
+batch = debounce 500, ->
+  promises = []
+  for type of task =>
+    for name of task[type] =>
+      out = "static/#type/pack/#name.#type"
+      # out file is not newer than watched files? rebuild!
+      if aux.newer(bundle-file, [out], true) or (task[type][name].length and !aux.newer(out, task[type][name])) =>
+        promises.push build({type, name, list: bundle[type][name]})
+  task := {css: {}, js: {}}
+  Promise.all promises
+    .then (list) ->
+      for info in list =>
+        {type,name,size,size-min,elapsed} = info
+        console.log "[BUILD] bundle static/#type/pack/#name.#type ( #size bytes / #{elapsed}ms )"
+        console.log "[BUILD] bundle static/#type/pack/#name.min.#type ( #size-min bytes / #{elapsed}ms )"
+
+
 main = do
   map: (list) ->
   build: (list) ->
     if bundle-file in list =>
       bundle := JSON.parse(fs.read-file-sync bundle-file .toString!)
-      for type of bundle => for n,l of bundle[type] => bundle[type][n] = l.map -> "static/#it"
-    task = {css: {}, js: {}}
+      for type of bundle => for n,l of bundle[type] => bundle[type][n] = l.map -> path.join(\static,it)
     for type of bundle =>
       for n,l of bundle[type] =>
-        task[type][n] = []
+        if !task[type][n] => task[type][n] = []
         for file in list => if file in l => task[type][n].push file
-    promises = []
-    for type of task =>
-      for name of task[type] =>
-        out = "static/#type/pack/#name.#type"
-        # out file is not newer than watched files? rebuild!
-        if aux.newer(bundle-file, [out], true) or (task[type][name].length and !aux.newer(out, task[type][name])) =>
-          promises.push build({type, name, list: bundle[type][name]})
-    Promise.all promises
-      .then (list) ->
-        for info in list =>
-          {type,name,size,size-min,elapsed} = info
-          console.log "[BUILD] bundle static/#type/pack/#name.#type ( #size bytes / #{elapsed}ms )"
-          console.log "[BUILD] bundle static/#type/pack/#name.min.#type ( #size-min bytes / #{elapsed}ms )"
+    batch!
 
   unlink: (list) ->
 
