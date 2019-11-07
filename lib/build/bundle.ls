@@ -19,7 +19,7 @@ build = ({name, list, type}) ->
       normal = list.join('')
       minified = list
         .map (code) -> 
-          if type == \js => uglify-js.minify(code,{fromString:true}).code
+          if type == \js => uglify-js.minify(code).code
           else if type == \css => uglifycss.processString(code, uglyComments: true)
           else code
         .join('')
