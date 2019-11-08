@@ -14,13 +14,22 @@ build = ({name, list, type}) ->
   Promise.resolve!
     .then -> new Promise (res, rej) -> fs-extra.ensure-dir outdir, -> res!
     .then ->
-      Promise.all list.map((f) -> new Promise (res, rej) ->
-        fs.read-file(f, (e,b) -> if e => rej e else res b.toString!))
-    .then (list) ->
-      normal = list.join('')
-      minified = list
-        .map (code) -> 
-          if type == \js => uglify-js.minify(code).code
+      Promise.all [
+        Promise.all(list.map((f) -> new Promise (res, rej) ->
+          fs.read-file(f, (e,b) -> if e => rej e else res {name: f, code: b.toString!}))),
+        Promise.all(list.map((f) -> new Promise (res, rej) ->
+          fm = f.replace /\.(js|css)$/, '.min.$1'
+          (e,b) <- fs.read-file fm, _
+          if e => fs.read-file f,((e, b) -> if e => rej e else res {name: fm, code: b.toString!})
+          else res {name: f, code: b.toString!}
+        ))
+      ]
+    .then (ret) ->
+      normal = ret.0.map(->it.code).join('')
+      minified = ret.1
+        .map ({name,code}) ->
+          return if /\.min\./.exec(name) => code
+          else if type == \js => uglify-js.minify(code).code
           else if type == \css => uglifycss.processString(code, uglyComments: true)
           else code
         .join('')
