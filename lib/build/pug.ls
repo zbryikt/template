@@ -45,24 +45,44 @@ main = do
     list = @map list
     for {src,des} in list =>
       if !fs.exists-sync(src) or aux.newer(des, src) => continue
+      code = fs.read-file-sync src .toString!
       try
         t1 = Date.now!
-        code = fs.read-file-sync src .toString!
-        if /^\/\/- ?(module|view) ?/.exec(code) => continue
-        desdir = path.dirname(des)
-        fs-extra.ensure-dir-sync desdir
-        fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-        t2 = Date.now!
-        console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
+        if /^\/\/- ?module ?/.exec(code) => continue
+        if /^\/\/- ?view ?/.exec(code) =>
+          des = des.replace('static/', '.view/').replace(/\.html$/, '.js')
+          if !fs.exists-sync(src) or aux.newer(des, src) => continue
+          desdir = path.dirname(des)
+          fs-extra.ensure-dir-sync desdir
+          ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+          ret = """ (function() { #ret; module.exports = template; })() """
+          fs.write-file-sync des, ret
+          t2 = Date.now!
+          console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
+        else
+          desdir = path.dirname(des)
+          fs-extra.ensure-dir-sync desdir
+          fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+          t2 = Date.now!
+          console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
+
       catch
         console.log "[BUILD] #src failed: ".red
         console.log e.message.toString!red
     return
   unlink: (list) ->
     list = @map list
-    for {src,des} in list => if fs.exists-sync des =>
-      fs.unlink-sync des
-      console.log "[BUILD] #src --> #des deleted.".yellow
+    for {src,des} in list =>
+      try
+        if fs.exists-sync des =>
+          fs.unlink-sync des
+          console.log "[BUILD] #src --> #des deleted.".yellow
+        des = des.replace('static/', '.view/').replace(/\.html$/, '.js')
+        if fs.exists-sync des =>
+          fs.unlink-sync des
+          console.log "[BUILD] #src --> #des deleted.".yellow
+      catch e
+        console.log e
   extapi: pug-extapi
 
 module.exports = main
