@@ -1,6 +1,10 @@
 t1 = Date.now!
 require! <[fs ./lib/server ./lib/watch ./api/index]>
 
+# try using packages such as yargs?
+if /\.json$/.exec(process.argv.2 or '') => cfgfile = process.argv.2
+if !cfgfile => cfgfile = 'config.json'
+
 main = do
   opt: {port: 3000, api: index, start-time: t1}
   set-opt: (o) -> @opt <<< o
@@ -9,8 +13,8 @@ main = do
     watch.init @opt
 
 if require.main == module =>
-  if fs.exists-sync('config.json') =>
-    config = JSON.parse(fs.read-file-sync 'config.json' .toString!)
+  if fs.exists-sync(cfgfile) =>
+    config = JSON.parse(fs.read-file-sync cfgfile .toString!)
     main.set-opt config
   main.init!
 
