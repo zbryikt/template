@@ -1,6 +1,7 @@
 {
   "author": "zbryikt",
   "name": "sample-project",
+  "license": "MIT",
   "description": "a dummy project",
   "version": "0.0.1",
   "homepage": "https://github.com/your/project",
