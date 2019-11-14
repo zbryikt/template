@@ -1,6 +1,6 @@
 {
-  "author": "Kirby Wu",
-  "name": "project",
+  "author": "zbryikt",
+  "name": "sample-project",
   "description": "a dummy project",
   "version": "0.0.1",
   "homepage": "https://github.com/your/project",
@@ -13,7 +13,7 @@
     "npm": ">=1.2.2"
   },
   "scripts": {
-    "start": "node_modules/.bin/lsc node_modules/template/server.ls"
+    "start": "cd web; ../node_modules/.bin/lsc ../node_modules/template/server.ls"
   },
   "dependencies": {
     "LiveScript": "^1.3.1",
