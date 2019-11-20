@@ -28,6 +28,7 @@
     "js-yaml": "^3.10.0",
     "marked": "0.7.0",
     "pug": "^2.0.3",
+    "require-reload": "^0.2.2",
     "stylus": "^0.54.5",
     "uglify-js": "=3.2.0",
     "uglifycss": "0.0.29"
