@@ -49,17 +49,17 @@ main = do
       try
         t1 = Date.now!
         if /^\/\/- ?module ?/.exec(code) => continue
-        if /^\/\/- ?view ?/.exec(code) =>
-          des = des.replace('static/', '.view/').replace(/\.html$/, '.js')
-          if !fs.exists-sync(src) or aux.newer(des, src) => continue
-          desdir = path.dirname(des)
-          fs-extra.ensure-dir-sync desdir
-          ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-          ret = """ (function() { #ret; module.exports = template; })() """
-          fs.write-file-sync des, ret
-          t2 = Date.now!
-          console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
-        else
+
+        des = des.replace('static/', '.view/').replace(/\.html$/, '.js')
+        if !fs.exists-sync(src) or aux.newer(des, src) => continue
+        desdir = path.dirname(des)
+        fs-extra.ensure-dir-sync desdir
+        ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+        ret = """ (function() { #ret; module.exports = template; })() """
+        fs.write-file-sync des, ret
+        t2 = Date.now!
+        console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
+        if !(/^\/\/- ?(view|module) ?/.exec(code)) =>
           desdir = path.dirname(des)
           fs-extra.ensure-dir-sync desdir
           fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
