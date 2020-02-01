@@ -1,2 +1,2 @@
-require! <[./server ./watch ./view]>
-module.exports = {server, watch, view}
+require! <[./server ./watch ./view ./build/pug]>
+module.exports = {server, watch, view, pug}
