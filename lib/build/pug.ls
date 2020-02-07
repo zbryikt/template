@@ -17,18 +17,7 @@ pug-extapi = do
          .render!
     'md': (text, opt) -> marked text
   md: marked
-  yaml: -> js-yaml.safe-load fs.read-file-sync it
-  yamls: (dir) ->
-    ret = fs.readdir-sync dir
-      .map -> "#dir/#it"
-      .filter -> /\.yaml$/.exec(it)
-      .map ->
-        try
-          js-yaml.safe-load(fs.read-file-sync it)
-        catch e
-          console.log "[ERROR@#it]: ", e
-    return ret
-
+  yaml: -> js-yaml.safe-load it
 
 main = do
   map: (list) ->
