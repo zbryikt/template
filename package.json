@@ -3,6 +3,7 @@
   "name": "template",
   "description": "simple, quick template for bootstrap a page",
   "version": "0.0.1",
+  "license": "MIT",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
