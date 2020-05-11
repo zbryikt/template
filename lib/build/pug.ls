@@ -17,7 +17,7 @@ pug-extapi = do
          .render!
     'md': (text, opt) -> marked text
   md: marked
-  yaml: -> js-yaml.safe-load it
+  yaml: -> js-yaml.safe-load fs.read-file-sync it
   yamls: (dir) ->
     ret = fs.readdir-sync dir
       .map -> "#dir/#it"
