@@ -13,8 +13,8 @@ server = do
     app.locals.basedir = app.get \views
 
     app.set 'view engine', \pug
-    app.use \/, express.static \static
     if opt.api => opt.api @
+    app.use \/, express.static \static
     console.log "[Server] Express Initialized in #{app.get \env} Mode".green
     server = app.listen opt.port, ->
       delta = if opt.start-time => "( takes #{Date.now! - opt.start-time}ms )" else ''

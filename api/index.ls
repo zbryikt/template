@@ -1,4 +1,4 @@
 ({app}) <- (-> module.exports = it) _
 
-app.get \/blah, (req, res) -> res.send \hello
+# app.get \/api-test, (req, res) -> res.send "api is working"
 
