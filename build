@@ -4,3 +4,4 @@ echo "#!/usr/bin/env node" > ./bin/cli.js
 ./node_modules/.bin/lsc -cbp server.ls >> ./bin/cli.js
 chmod 755 ./bin/cli.js
 ./node_modules/.bin/lsc lib -o ./bin/lib/
+./node_modules/.bin/lsc api -o ./bin/api/
