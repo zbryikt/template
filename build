@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "#!/usr/bin/env node" > ./cli.js
+./node_modules/.bin/lsc -cbp server.ls >> ./cli.js
+chmod 755 ./cli.js
