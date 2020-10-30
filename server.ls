@@ -6,7 +6,7 @@ if /\.json$/.exec(process.argv.2 or '') => cfgfile = process.argv.2
 if !cfgfile => cfgfile = 'config.json'
 
 main = do
-  opt: {port: 3000, api: index, start-time: t1}
+  opt: {api: index, start-time: t1}
   set-opt: (o) -> @opt <<< o
   init: ->
     server.init @opt
