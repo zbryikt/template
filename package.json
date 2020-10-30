@@ -26,7 +26,6 @@
     "express": "^4.16.4",
     "fs-extra": "^8.0.0",
     "js-yaml": "^3.13.1",
-    "lodash": "^4.17.15",
     "marked": "0.7.0",
     "pug": "^2.0.3",
     "require-reload": "^0.2.2",
