@@ -33,7 +33,7 @@
     "stylus": "^0.54.5",
     "uglify-js": "=3.2.0",
     "uglifycss": "0.0.29"
-  }
+  },
   "bin": {
     "server": "./cli.js"
   }
