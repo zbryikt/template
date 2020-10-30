@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
-echo "#!/usr/bin/env node" > ./cli.js
-./node_modules/.bin/lsc -cbp server.ls >> ./cli.js
-chmod 755 ./cli.js
+mkdir -p bin
+echo "#!/usr/bin/env node" > ./bin/cli.js
+./node_modules/.bin/lsc -cbp server.ls >> ./bin/cli.js
+chmod 755 ./bin/cli.js
+./node_modules/.bin/lsc lib -o ./bin/lib/
