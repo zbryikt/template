@@ -12,12 +12,12 @@
 
 install required modules
 
-    npm install --save github:zbryikt/template#v2 LiveScript
+    npm install --save github:zbryikt/template#v2.0.0
 
 
 start server:
 
-    ./node_modules/.bin/lsc ./node_modules/template/server.ls
+    cd <your-web-root>; ./node_modules/.bin/server
 
 
 you can also add following in your own package.json:
@@ -27,11 +27,13 @@ you can also add following in your own package.json:
     },
 
 
-optional config.json in root dir for altering default port and other config:
+optional `config.json` in `<your-web-root>` dir for altering default port and other config:
 
     {
         "port": 3012
     }
+
+Port will be randomized unused port if not specified.
 
 
 ## Start Kit
