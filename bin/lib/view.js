@@ -28,7 +28,7 @@
     return console.log("[VIEW] " + f + " served in " + t + "ms (" + type + (cache ? ' cached' : '') + ")");
   };
   engine = function(f, opt, cb){
-    var lc, viewdir, basedir, pc, t1, ret, that, t2, e;
+    var lc, intl, viewdir, basedir, pc, t1, ret, that, t2, e;
     lc = {};
     if (opt.settings.env === 'development') {
       lc.dev = true;
@@ -36,8 +36,9 @@
     if (opt.settings['view cache']) {
       lc.cache = true;
     }
+    intl = opt.i18n ? path.join("intl", opt._locals.language) : '';
     viewdir = opt.viewdir, basedir = opt.basedir;
-    pc = path.join(viewdir, f.replace(basedir, '').replace(/\.pug$/, '.js'));
+    pc = path.join(viewdir, intl, f.replace(basedir, '').replace(/\.pug$/, '.js'));
     try {
       t1 = Date.now();
       ret = !lc.cache
@@ -74,6 +75,17 @@
         }
         return cb(e, null);
       }
+    }
+  };
+  engine.opt = function(opt){
+    opt == null && (opt = {});
+    if (opt.i18n) {
+      pugExtapi.i18n = function(it){
+        return opt.i18n.t(it);
+      };
+      return (pugExtapi.filters || (pugExtapi.filters = {})).i18n = function(t, o){
+        return opt.i18n.t(t);
+      };
     }
   };
   module.exports = engine;
