@@ -91,53 +91,74 @@
       }, pugExtapi), opt));
     },
     build: function(list){
-      var i$, len$, ref$, src, des, code, t1, j$, ref1$, len1$, lng, intl, desv, desh, desvdir, ret, t2, desdir, e;
+      var _, lngs, ref$, consume;
       list = this.map(list);
-      for (i$ = 0, len$ = list.length; i$ < len$; ++i$) {
-        ref$ = list[i$], src = ref$.src, des = ref$.des;
-        if (!fs.existsSync(src) || aux.newer(des, src)) {
-          continue;
-        }
-        code = fs.readFileSync(src).toString();
-        try {
-          t1 = Date.now();
-          if (/^\/\/- ?module ?/.exec(code)) {
-            continue;
-          }
-          for (j$ = 0, len1$ = (ref$ = [''].concat(((ref1$ = lc.i18n).options || (ref1$.options = {})).lng || [])).length; j$ < len1$; ++j$) {
-            lng = ref$[j$];
-            intl = lng ? path.join("intl", lng) : '';
+      _ = function(lng){
+        var intl, p, that, ref$;
+        lng == null && (lng = '');
+        intl = lng ? path.join("intl", lng) : '';
+        p = lc.i18n.changeLanguage
+          ? lc.i18n.changeLanguage((that = lng)
+            ? that
+            : ((ref$ = lc.i18n).options || (ref$.options = {})).fallbackLng)
+          : Promise.resolve();
+        return p.then(function(){
+          var i$, ref$, len$, ref1$, src, des, desv, desh, code, t1, desvdir, ret, t2, desdir, e, results$ = [];
+          for (i$ = 0, len$ = (ref$ = list).length; i$ < len$; ++i$) {
+            ref1$ = ref$[i$], src = ref1$.src, des = ref1$.des;
             desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js');
             desh = des.replace('static/', path.join('static', intl) + "/");
-            if (fs.existsSync(src) && !aux.newer(desv, src)) {
-              desvdir = path.dirname(desv);
-              fsExtra.ensureDirSync(desvdir);
-              ret = pug.compileClient(code, import$({
-                filename: src,
-                basedir: path.join(cwd, 'src/pug/')
-              }, pugExtapi));
-              ret = " (function() { " + ret + "; module.exports = template; })() ";
-              fs.writeFileSync(desv, ret);
-              t2 = Date.now();
-              console.log("[BUILD] " + src + " --> " + desv + " ( " + (t2 - t1) + "ms )");
+            if (!fs.existsSync(src) || aux.newer(desv, src)) {
+              continue;
             }
-            if (!/^\/\/- ?(view|module) ?/.exec(code)) {
-              desdir = path.dirname(desh);
-              fsExtra.ensureDirSync(desdir);
-              fs.writeFileSync(desh, pug.render(code, import$({
-                filename: src,
-                basedir: path.join(cwd, 'src/pug/')
-              }, pugExtapi)));
-              t2 = Date.now();
-              console.log("[BUILD] " + src + " --> " + desh + " ( " + (t2 - t1) + "ms )");
+            code = fs.readFileSync(src).toString();
+            try {
+              t1 = Date.now();
+              if (/^\/\/- ?module ?/.exec(code)) {
+                continue;
+              }
+              if (fs.existsSync(src) && !aux.newer(desv, src)) {
+                desvdir = path.dirname(desv);
+                fsExtra.ensureDirSync(desvdir);
+                ret = pug.compileClient(code, import$({
+                  filename: src,
+                  basedir: path.join(cwd, 'src/pug/')
+                }, pugExtapi));
+                ret = " (function() { " + ret + "; module.exports = template; })() ";
+                fs.writeFileSync(desv, ret);
+                t2 = Date.now();
+                console.log("[BUILD] " + src + " --> " + desv + " ( " + (t2 - t1) + "ms )");
+              }
+              if (!/^\/\/- ?(view|module) ?/.exec(code)) {
+                desdir = path.dirname(desh);
+                fsExtra.ensureDirSync(desdir);
+                fs.writeFileSync(desh, pug.render(code, import$({
+                  filename: src,
+                  basedir: path.join(cwd, 'src/pug/')
+                }, pugExtapi)));
+                t2 = Date.now();
+                results$.push(console.log("[BUILD] " + src + " --> " + desh + " ( " + (t2 - t1) + "ms )"));
+              }
+            } catch (e$) {
+              e = e$;
+              console.log(("[BUILD] " + src + " failed: ").red);
+              results$.push(console.log(e.message.toString().red));
             }
           }
-        } catch (e$) {
-          e = e$;
-          console.log(("[BUILD] " + src + " failed: ").red);
-          console.log(e.message.toString().red);
+          return results$;
+        });
+      };
+      lngs = [''].concat(((ref$ = lc.i18n).options || (ref$.options = {})).lng || []);
+      consume = function(i){
+        i == null && (i = 0);
+        if (i >= lngs.length) {
+          return;
         }
-      }
+        return _(lngs[i]).then(function(){
+          return consume(i + 1);
+        });
+      };
+      consume();
     },
     unlink: function(list){
       var i$, len$, ref$, src, des, e, results$ = [];
