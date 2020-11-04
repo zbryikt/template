@@ -20,8 +20,9 @@ engine = (f, opt, cb) ->
   lc = {}
   if opt.settings.env == \development => lc.dev = true
   if opt.settings['view cache'] => lc.cache = true
+  intl = if opt.i18n => path.join("intl", opt._locals.language) else ''
   {viewdir, basedir} = opt
-  pc = path.join(viewdir, f.replace(basedir, '').replace(/\.pug$/, '.js'))
+  pc = path.join(viewdir, intl, f.replace(basedir, '').replace(/\.pug$/, '.js'))
   try
     t1 = Date.now!
     ret = if !lc.cache => reload(pc)
@@ -42,5 +43,10 @@ engine = (f, opt, cb) ->
     catch e
       if lc.dev => console.log "[VIEW] #{f.replace(opt.basedir, '')} serve failed."
       cb e, null
+
+engine.opt = (opt = {}) ->
+  if opt.i18n =>
+    pug-extapi.i18n = -> opt.i18n.t(it)
+    pug-extapi.{}filters.i18n = (t, o) -> opt.i18n.t(t)
 
 module.exports = engine

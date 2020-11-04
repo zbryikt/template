@@ -1,0 +1,3 @@
+sample i18n: this is a test i18n file.
+i18n key: i18n translation test ( runtime function )
+i18n key filter: i18n translation test ( compile time filter )

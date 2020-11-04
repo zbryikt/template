@@ -2,6 +2,7 @@ require! <[fs fs-extra pug LiveScript stylus path js-yaml marked ./aux]>
 
 cwd = path.resolve process.cwd!
 
+lc = {i18n: {}}
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
 marked.set-options md-options.html
 
@@ -30,6 +31,11 @@ pug-extapi = do
     return ret
 
 main = do
+  opt: (opt = {}) ->
+    if opt.i18n =>
+      pug-extapi.i18n = -> opt.i18n.t(it)
+      pug-extapi.{}filters.i18n = (t, o) -> opt.i18n.t(t)
+      lc.i18n = opt.i18n
   map: (list) ->
     list
       .filter -> /^src\/pug/.exec(it)
@@ -49,22 +55,26 @@ main = do
         t1 = Date.now!
         if /^\/\/- ?module ?/.exec(code) => continue
 
-        desv = des.replace('static/', '.view/').replace(/\.html$/, '.js')
-        if fs.exists-sync(src) and !aux.newer(desv, src) =>
-          desvdir = path.dirname(desv)
-          fs-extra.ensure-dir-sync desvdir
-          ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-          ret = """ (function() { #ret; module.exports = template; })() """
-          fs.write-file-sync desv, ret
-          t2 = Date.now!
-          console.log "[BUILD] #src --> #desv ( #{t2 - t1}ms )"
-
-        if !(/^\/\/- ?(view|module) ?/.exec(code)) =>
-          desdir = path.dirname(des)
-          fs-extra.ensure-dir-sync desdir
-          fs.write-file-sync des, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-          t2 = Date.now!
-          console.log "[BUILD] #src --> #des ( #{t2 - t1}ms )"
+        for lng in ([''] ++ (lc.i18n.{}options.lng or []))
+          intl = if lng => path.join("intl",lng) else ''
+          desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js')
+          desh = des.replace('static/', path.join('static', intl) + "/")
+          if fs.exists-sync(src) and !aux.newer(desv, src) =>
+            desvdir = path.dirname(desv)
+            fs-extra.ensure-dir-sync desvdir
+            ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+            ret = """ (function() { #ret; module.exports = template; })() """
+            fs.write-file-sync desv, ret
+            t2 = Date.now!
+            console.log "[BUILD] #src --> #desv ( #{t2 - t1}ms )"
+          if !(/^\/\/- ?(view|module) ?/.exec(code)) =>
+            desdir = path.dirname(desh)
+            fs-extra.ensure-dir-sync desdir
+            fs.write-file-sync(
+              desh, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+            )
+            t2 = Date.now!
+            console.log "[BUILD] #src --> #desh ( #{t2 - t1}ms )"
 
       catch
         console.log "[BUILD] #src failed: ".red

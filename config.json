@@ -3,5 +3,6 @@
   "watcher": {
     "ignores": []
   },
-  "assets": []
+  "assets": [],
+  "i18n": {"lng": ["en","zh-TW"]}
 }

@@ -50,6 +50,7 @@ Port will be randomized unused port if not specified.
    * src/pug/ - pug code, built to static/
    * src/styl/ - stylus code, built to static/css/
  * static/ - generated files or other assets.
+ * locales/ - i18n translation files based on `i18next`.
 
 
 ## Custom API
@@ -77,6 +78,14 @@ server.init accepts config with following options:
  - `port` - port to listen. when omitted, random unused port is used.
  - `startTime` - optional time for providing initialization elapsed time information.
  - `api` - functions for customizing server. executed before server started
+ - `i18n` - i18n options including:
+   - `enabled` - true if i18n is enabled. default `true`.
+   - `lng` - list of locales. default `['zh-tw']`. mapped to folders under `locales/` directory.
+   - `fallbackLng` - fallback locales. default `zh-tw`.
+   - `preload` - list of locales to preload. defalt `['zh-tw']`.
+   - `ns` - list of namespaces. default `['default']`. mapped to files under specific locale directory.
+   - `defaultNS` - default namespace. default `default`
+   - `fallbackNS` - fallback namespace when failed to match with desired namespace. default `default`.
 
 
 watch.init accepts config with following options:
