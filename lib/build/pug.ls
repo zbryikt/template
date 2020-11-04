@@ -48,37 +48,49 @@ main = do
     )
   build: (list) ->
     list = @map list
-    for {src,des} in list =>
-      if !fs.exists-sync(src) or aux.newer(des, src) => continue
-      code = fs.read-file-sync src .toString!
-      try
-        t1 = Date.now!
-        if /^\/\/- ?module ?/.exec(code) => continue
 
-        for lng in ([''] ++ (lc.i18n.{}options.lng or []))
-          intl = if lng => path.join("intl",lng) else ''
+    _ = (lng = '') ->
+      intl = if lng => path.join("intl",lng) else ''
+      p = if lc.i18n.changeLanguage =>
+        lc.i18n.changeLanguage(if lng => that else lc.i18n.{}options.fallbackLng)
+      else Promise.resolve!
+      p.then ->
+        for {src,des} in list =>
           desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js')
           desh = des.replace('static/', path.join('static', intl) + "/")
-          if fs.exists-sync(src) and !aux.newer(desv, src) =>
-            desvdir = path.dirname(desv)
-            fs-extra.ensure-dir-sync desvdir
-            ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-            ret = """ (function() { #ret; module.exports = template; })() """
-            fs.write-file-sync desv, ret
-            t2 = Date.now!
-            console.log "[BUILD] #src --> #desv ( #{t2 - t1}ms )"
-          if !(/^\/\/- ?(view|module) ?/.exec(code)) =>
-            desdir = path.dirname(desh)
-            fs-extra.ensure-dir-sync desdir
-            fs.write-file-sync(
-              desh, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
-            )
-            t2 = Date.now!
-            console.log "[BUILD] #src --> #desh ( #{t2 - t1}ms )"
+          if !fs.exists-sync(src) or aux.newer(desv, src) => continue
+          code = fs.read-file-sync src .toString!
+          try
+            t1 = Date.now!
+            if /^\/\/- ?module ?/.exec(code) => continue
 
-      catch
-        console.log "[BUILD] #src failed: ".red
-        console.log e.message.toString!red
+            if fs.exists-sync(src) and !aux.newer(desv, src) =>
+              desvdir = path.dirname(desv)
+              fs-extra.ensure-dir-sync desvdir
+              ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+              ret = """ (function() { #ret; module.exports = template; })() """
+              fs.write-file-sync desv, ret
+              t2 = Date.now!
+              console.log "[BUILD] #src --> #desv ( #{t2 - t1}ms )"
+            if !(/^\/\/- ?(view|module) ?/.exec(code)) =>
+              desdir = path.dirname(desh)
+              fs-extra.ensure-dir-sync desdir
+              fs.write-file-sync(
+                desh, pug.render code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi
+              )
+              t2 = Date.now!
+              console.log "[BUILD] #src --> #desh ( #{t2 - t1}ms )"
+
+          catch
+            console.log "[BUILD] #src failed: ".red
+            console.log e.message.toString!red
+
+    lngs = ([''] ++ (lc.i18n.{}options.lng or []))
+    consume = (i=0) ->
+      if i >= lngs.length => return
+      _(lngs[i]).then -> consume(i+1)
+    consume!
+
     return
   unlink: (list) ->
     list = @map list
