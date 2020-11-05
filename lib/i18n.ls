@@ -24,8 +24,6 @@ ret = (opt) ->
         .on \unlink, (~> i18next.reloadResources(options.lng))
 
       return i18next
-  # to reload certain resources
-  # i18next.reloadResources <[zh-tw]>
 
 module.exports = ret
 
