@@ -10,7 +10,8 @@
   server = {
     init: function(opt){
       var this$ = this;
-      return i18n(opt).then(function(i18n){
+      opt == null && (opt = {});
+      return i18n(opt.i18n).then(function(i18n){
         var app, cwd, server;
         this$.app = app = express();
         cwd = process.cwd();

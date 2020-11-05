@@ -1,8 +1,8 @@
 require! <[express path colors i18next-http-middleware ./view ./i18n]>
 
 server = do
-  init: (opt) ->
-    i18n(opt).then (i18n) ~>
+  init: (opt = {}) ->
+    i18n(opt.i18n).then (i18n) ~>
       @app = app = express!
       cwd = process.cwd!
 

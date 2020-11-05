@@ -28,53 +28,68 @@
     return console.log("[VIEW] " + f + " served in " + t + "ms (" + type + (cache ? ' cached' : '') + ")");
   };
   engine = function(f, opt, cb){
-    var lc, intl, viewdir, basedir, pc, t1, ret, that, t2, e;
+    var lc, intl, viewdir, basedir, pc, t1, mtime, cache, ret, t2, e, p;
     lc = {};
     if (opt.settings.env === 'development') {
       lc.dev = true;
     }
-    if (opt.settings['view cache']) {
-      lc.cache = true;
-    }
+    lc.cache = true || opt.settings['view cache'];
     intl = opt.i18n ? path.join("intl", opt._locals.language) : '';
     viewdir = opt.viewdir, basedir = opt.basedir;
     pc = path.join(viewdir, intl, f.replace(basedir, '').replace(/\.pug$/, '.js'));
     try {
       t1 = Date.now();
-      ret = !lc.cache
-        ? reload(pc)
-        : (that = pugCached[pc])
-          ? that
-          : pugCached[pc] = require(pc);
-      ret = ret(opt);
+      mtime = fs.statSync(pc).mtime;
+      cache = false;
+      ret = pugCached[pc] = !lc.cache || !pugCached[pc] || mtime - pugCached[pc].mtime > 0
+        ? {
+          js: reload(pc),
+          mtime: mtime
+        }
+        : (cache = true, pugCached[pc]);
+      if (!ret.js) {
+        throw new Error();
+      }
+      ret = ret.js(opt);
       t2 = Date.now();
       if (lc.dev) {
-        log(f, opt, t2 - t1, 'precompiled', lc.cache);
+        log(f, opt, t2 - t1, 'precompiled', cache);
       }
       return cb(null, ret);
     } catch (e$) {
       e = e$;
-      try {
-        t1 = Date.now();
-        return fs.readFile(f, function(e, b){
-          var ret, ref$, t2;
-          if (e) {
-            throw new Error(e);
-          }
-          ret = pug.render(b, import$((ref$ = import$({}, opt), ref$.filename = f, ref$.cache = lc.cache, ref$.basedir = basedir, ref$), pugExtapi));
-          t2 = Date.now();
-          if (lc.dev) {
-            log(f, opt, t2 - t1, 'from pug', lc.cache);
-          }
-          return cb(null, ret);
-        });
-      } catch (e$) {
-        e = e$;
-        if (lc.dev) {
-          console.log("[VIEW] " + f.replace(opt.basedir, '') + " serve failed.");
+      t1 = Date.now();
+      mtime = fs.statSync(f).mtime;
+      p = !lc.cache || !pugCached[f] || (pugCached[f] && mtime - pugCached[f].mtime > 0)
+        ? new Promise(function(res, rej){
+          return fs.readFile(f, function(e, b){
+            if (e) {
+              return rej(e);
+            } else {
+              return res(b);
+            }
+          });
+        }).then(function(buf){
+          return pugCached[f] = {
+            buf: buf
+          };
+        })
+        : Promise.resolve(pugCached[f]);
+      return p.then(function(obj){
+        var cache, ret, ref$, t2;
+        if (!(cache = obj.mtime != null && lc.cache)) {
+          obj.mtime = mtime;
         }
+        ret = pug.render(obj.buf, import$((ref$ = import$({}, opt), ref$.filename = f, ref$.cache = cache, ref$.basedir = basedir, ref$), pugExtapi));
+        t2 = Date.now();
+        if (lc.dev) {
+          log(f, opt, t2 - t1, 'from pug', cache);
+        }
+        return cb(null, ret);
+      })['catch'](function(){
+        console.log("[VIEW] " + f.replace(opt.basedir, '') + " serve failed.");
         return cb(e, null);
-      }
+      });
     }
   };
   engine.opt = function(opt){

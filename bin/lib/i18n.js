@@ -7,7 +7,7 @@
   i18nextHttpMiddleware = require('i18next-http-middleware');
   ret = function(opt){
     var options;
-    if (!opt.i18n || (opt.i18n.enabled != null && !opt.i18n.enabled)) {
+    if (!opt || (opt.enabled != null && !opt.enabled)) {
       return Promise.resolve();
     }
     options = import$({
@@ -21,7 +21,7 @@
       backend: {
         loadPath: 'locales/{{lng}}/{{ns}}.yaml'
       }
-    }, opt.i18n || {});
+    }, opt || {});
     return i18next.use(i18nextFsBackend).use(i18nextHttpMiddleware.LanguageDetector).init(options).then(function(){
       var watcher, this$ = this;
       watcher = chokidar.watch(['locales'], {

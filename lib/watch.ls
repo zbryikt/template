@@ -8,7 +8,7 @@ StylusTree.set-root \src/styl
 watch = do
   ignores: [/^\..*\.swp$/]
   init: (opt={}) ->
-    i18n(opt)
+    i18n(opt.i18n)
       .then (i18n) ~>
         pug.opt({i18n})
         cfg = do

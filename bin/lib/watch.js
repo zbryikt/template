@@ -21,7 +21,7 @@
     init: function(opt){
       var this$ = this;
       opt == null && (opt = {});
-      return i18n(opt).then(function(i18n){
+      return i18n(opt.i18n).then(function(i18n){
         var cfg;
         pug.opt({
           i18n: i18n
