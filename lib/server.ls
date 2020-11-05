@@ -6,11 +6,10 @@ server = do
       @app = app = express!
       cwd = process.cwd!
 
-      opt.i18n = i18n
       app.use i18next-http-middleware.handle i18n, {ignoreRoutes: <[]>}
 
       # we precompile all view pug into .view folder, which can be used by our custom pug view engine.
-      view.opt(opt)
+      view.opt({i18n})
       app.engine 'pug', view
       app.set 'view engine', 'pug'
       app.set 'views', path.join(cwd, './src/pug/')
