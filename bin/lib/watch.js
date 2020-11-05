@@ -23,7 +23,9 @@
       opt == null && (opt = {});
       return i18n(opt).then(function(i18n){
         var cfg;
-        pug.opt(opt);
+        pug.opt({
+          i18n: i18n
+        });
         cfg = {
           persistent: true,
           ignored: function(f){

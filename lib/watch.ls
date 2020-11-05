@@ -10,7 +10,7 @@ watch = do
   init: (opt={}) ->
     i18n(opt)
       .then (i18n) ~>
-        pug.opt(opt)
+        pug.opt({i18n})
         cfg = do
           persistent: true
           ignored: (f) ~> @ignores.filter(-> it.exec(f)).length
