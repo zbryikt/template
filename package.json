@@ -11,12 +11,11 @@
     "url": "https://github.com/zbryikt/template"
   },
   "engines": {
-    "node": ">=0.12.6",
-    "npm": ">=1.2.2"
+    "node": ">=10.14.1",
+    "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "node_modules/.bin/lsc server.ls",
-    "restart": "node_modules\\.bin\\lsc server.ls"
+    "start": "npx server"
   },
   "dependencies": {
     "LiveScript": ">=1.2.0",
