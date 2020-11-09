@@ -15,9 +15,11 @@
         var app, cwd, server;
         this$.app = app = express();
         cwd = process.cwd();
-        app.use(i18nextHttpMiddleware.handle(i18n, {
-          ignoreRoutes: []
-        }));
+        if (i18n) {
+          app.use(i18nextHttpMiddleware.handle(i18n, {
+            ignoreRoutes: []
+          }));
+        }
         view.opt({
           i18n: i18n
         });
