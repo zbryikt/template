@@ -2,7 +2,7 @@
   "author": "Kirby Wu",
   "name": "template",
   "license": "MIT",
-  "main": "lib/index.ls",
+  "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
   "version": "2.0.0",
   "homepage": "https://github.com/zbryikt/template",
