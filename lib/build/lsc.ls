@@ -1,7 +1,5 @@
 require! <[fs fs-extra LiveScript path colors uglify-js ./aux]>
 
-cwd = path.resolve process.cwd!
-
 main = do
   map: (list) ->
     list

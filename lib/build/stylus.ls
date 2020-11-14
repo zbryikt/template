@@ -1,7 +1,5 @@
 require! <[fs fs-extra stylus path uglifycss ./aux]>
 
-cwd = path.resolve process.cwd!
-
 main = do
   map: (list) ->
     list

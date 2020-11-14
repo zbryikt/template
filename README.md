@@ -12,18 +12,18 @@
 
 install required modules
 
-    npm install --save github:zbryikt/template#v2.0.0
+    npm install --save github:zbryikt/template#v2.1.3
 
 
-start server:
+start server ( both -r and -c are optional ):
 
-    cd <your-web-root>; ./node_modules/.bin/server
+    npx server -r <your-web-root> -c <your-server-config>
 
 
 you can also add following in your own package.json:
 
     "scripts": {
-        "start": "node_modules/.bin/lsc node_modules/template/server.ls"
+        "start": "npx server"
     },
 
 
@@ -33,7 +33,7 @@ optional `config.json` in `<your-web-root>` dir for altering default port and ot
         "port": 3012
     }
 
-Port will be randomized unused port if not specified.
+Port will be randomized unused port if not specified. For more about options, see the Options section below.
 
 
 ## Start Kit
@@ -46,9 +46,9 @@ Port will be randomized unused port if not specified.
    you need to have a gh-pages branch at first.
  * README.md - a dummy readme. edit it as necessary.
  * src/ - template style source code folder.
-   * src/ls/ - livescript code, built to static/js/
-   * src/pug/ - pug code, built to static/
-   * src/styl/ - stylus code, built to static/css/
+   * src/ls/ - LiveScript code, built to static/js/
+   * src/pug/ - Pug code, built to static/
+   * src/styl/ - Stylus code, built to static/css/
  * static/ - generated files or other assets.
  * locales/ - i18n translation files based on `i18next`.
 
@@ -103,7 +103,8 @@ watch.init accepts config with following options:
 
 ## Note
 
- * To optimize pug building, keep an eye on the pug inclusion tree, and prevent unnecessary include if possible.
+ * To optimize Pug building, keep an eye on the Pug inclusion tree, and prevent unnecessary include if possible.
+
 
 ## License
 

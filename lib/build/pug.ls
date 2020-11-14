@@ -1,7 +1,5 @@
 require! <[fs fs-extra pug LiveScript stylus path js-yaml marked ./aux]>
 
-cwd = path.resolve process.cwd!
-
 lc = {i18n: {}}
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
 marked.set-options md-options.html
@@ -42,11 +40,13 @@ main = do
       .map -> {src: it, des: path.normalize(it.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))}
   # handy function to custom build quickly with the same configuration of server watcher.
   compile: (src,opt = {}) ->
+    cwd = path.resolve process.cwd!
     pug.compile(
       fs.read-file-sync(src).toString!,
       {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi <<< opt
     )
   build: (list) ->
+    cwd = path.resolve process.cwd!
     list = @map list
 
     _ = (lng = '') ->

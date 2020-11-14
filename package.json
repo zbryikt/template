@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
@@ -33,7 +33,8 @@
     "require-reload": "^0.2.2",
     "stylus": "^0.54.5",
     "uglify-js": "=3.2.0",
-    "uglifycss": "0.0.29"
+    "uglifycss": "0.0.29",
+    "yargs": "^16.1.0"
   },
   "bin": {
     "server": "./bin/cli.js"
