@@ -1,10 +1,10 @@
-require! <[fs path pug stylus LiveScript]>
+require! <[fs path pug stylus livescript]>
 reload = require("require-reload")(require)
 
 pug-extapi = do
   filters: do
-    'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true,header:false})
-    'lson': (text, opt) -> return LiveScript.compile(text,{bare:true,header:false,json:true})
+    'lsc': (text, opt) -> return livescript.compile(text,{bare:true,header:false})
+    'lson': (text, opt) -> return livescript.compile(text,{bare:true,header:false,json:true})
     'stylus': (text, opt) ->
        stylus(text)
          .set \filename, 'inline'

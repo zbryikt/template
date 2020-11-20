@@ -1,4 +1,4 @@
-require! <[fs fs-extra LiveScript stylus path colors uglify-js uglifycss ./aux debounce.js]>
+require! <[fs fs-extra livescript stylus path colors uglify-js uglifycss ./aux debounce.js]>
 
 cwd = path.resolve process.cwd!
 

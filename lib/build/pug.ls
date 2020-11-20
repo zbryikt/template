@@ -1,4 +1,4 @@
-require! <[fs fs-extra pug LiveScript stylus path js-yaml marked ./aux]>
+require! <[fs fs-extra pug livescript stylus path js-yaml marked ./aux]>
 
 lc = {i18n: {}}
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
@@ -6,8 +6,8 @@ marked.set-options md-options.html
 
 pug-extapi = do
   filters: do
-    'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true,header:false})
-    'lson': (text, opt) -> return LiveScript.compile(text,{bare:true,header:false,json:true})
+    'lsc': (text, opt) -> return livescript.compile(text,{bare:true,header:false})
+    'lson': (text, opt) -> return livescript.compile(text,{bare:true,header:false,json:true})
     'stylus': (text, opt) ->
        stylus(text)
          .set \filename, 'inline'

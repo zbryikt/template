@@ -15,6 +15,8 @@ html
     script: :lsc
       document.body.appendChild(div = document.createElement("h2"))
       div.textContent = "livescript filter test"
+    script(type="application/json"): :lson
+      output: "lson test ok"
     div: :i18n
       i18n key filter
     div= i18n("i18n key")

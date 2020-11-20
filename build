@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 mkdir -p bin
+echo "building cli.js ..."
 echo "#!/usr/bin/env node" > ./bin/cli.js
 ./node_modules/.bin/lsc -cbp server.ls >> ./bin/cli.js
 chmod 755 ./bin/cli.js
-./node_modules/.bin/lsc lib -o ./bin/lib/
-./node_modules/.bin/lsc api -o ./bin/api/
+echo "building lib folder ..."
+./node_modules/.bin/lsc -o ./bin/lib/ -cb lib
+echo "building api folder ..."
+./node_modules/.bin/lsc -o ./bin/api/ -cb api
