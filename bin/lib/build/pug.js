@@ -24,7 +24,8 @@
     filters: {
       'lsc': function(text, opt){
         return LiveScript.compile(text, {
-          bare: true
+          bare: true,
+          header: false
         });
       },
       'stylus': function(text, opt){

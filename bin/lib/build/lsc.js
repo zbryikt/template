@@ -37,7 +37,8 @@
           desdir = path.dirname(des);
           fsExtra.ensureDirSync(desdir);
           code = LiveScript.compile(fs.readFileSync(src).toString(), {
-            bare: true
+            bare: true,
+            header: false
           });
           codeMin = uglifyJs.minify(code).code;
           fs.writeFileSync(des, code);

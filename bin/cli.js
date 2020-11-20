@@ -11,23 +11,24 @@ watch = require(lib + "/lib/watch");
 api = require(lib + "/api/index");
 if (/\.json$/.exec(process.argv[2] || '')) {
   cfgfile = process.argv[2];
+} else {
+  argv = yargs.option('root', {
+    alias: 'r',
+    description: "root directory",
+    type: 'string'
+  }).option('config', {
+    alias: 'c',
+    description: "config json",
+    type: 'string'
+  }).help('help').alias('help', 'h').check(function(argv, options){
+    return true;
+  }).argv;
+  root = argv.r;
+  cfgfile = argv.c || 'config.json';
 }
 if (!cfgfile) {
   cfgfile = 'config.json';
 }
-argv = yargs.option('root', {
-  alias: 'r',
-  description: "root directory",
-  type: 'string'
-}).option('config', {
-  alias: 'c',
-  description: "config json",
-  type: 'string'
-}).help('help').alias('help', 'h').check(function(argv, options){
-  return true;
-}).argv;
-root = argv.r;
-cfgfile = argv.c || 'config.json';
 main = {
   opt: {
     api: api,

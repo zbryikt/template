@@ -6,7 +6,7 @@ marked.set-options md-options.html
 
 pug-extapi = do
   filters: do
-    'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true})
+    'lsc': (text, opt) -> return LiveScript.compile(text,{bare:true,header:false})
     'stylus': (text, opt) ->
        stylus(text)
          .set \filename, 'inline'
