@@ -28,6 +28,13 @@
           header: false
         });
       },
+      'lson': function(text, opt){
+        return LiveScript.compile(text, {
+          bare: true,
+          header: false,
+          json: true
+        });
+      },
       'stylus': function(text, opt){
         return stylus(text).set('filename', 'inline').define('index', function(a, b){
           a = (a.string || a.val).split(' ');
