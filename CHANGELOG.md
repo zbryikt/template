@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.5
+
+ - use dependency debounce.js from npm instead of github.
+
+
 ## 2.1.4
 
  - remove LiveScript header comment.
