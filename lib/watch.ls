@@ -1,4 +1,4 @@
-require! <[fs fs-extra chokidar path debounce.js]>
+require! <[fs fs-extra chokidar path @loadingio/debounce.js]>
 require! <[./i18n]>
 require! <[./tree/PugTree ./tree/StylusTree ./build/pug ./build/stylus ./build/lsc ./build/aux ./build/bundle]>
 
