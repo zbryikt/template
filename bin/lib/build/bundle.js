@@ -9,7 +9,7 @@ colors = require('colors');
 uglifyJs = require('uglify-js');
 uglifycss = require('uglifycss');
 aux = require('./aux');
-debounce = require('debounce.js');
+debounce = require('@loadingio/debounce.js');
 cwd = path.resolve(process.cwd());
 bundle = {
   css: {},
