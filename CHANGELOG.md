@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.6
+
+ - fix bug: we should require scoped packages with their full name.
+
+
 ## 2.1.5
 
  - use dependency debounce.js from npm instead of github.
