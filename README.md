@@ -17,7 +17,7 @@ install required modules
 
 start server ( both -r and -c are optional ):
 
-    npx server -r <your-web-root> -c <your-server-config>
+    npx server -r <your-web-root> -c <your-server-config> -o <auto-open:true/false>
 
 
 you can also add following in your own package.json:
@@ -78,6 +78,7 @@ server.init accepts config with following options:
  - `port` - port to listen. when omitted, random unused port is used.
  - `startTime` - optional time for providing initialization elapsed time information.
  - `api` - functions for customizing server. executed before server started
+ - `open` - true to open browser page when server starts. default false
  - `i18n` - i18n options including:
    - `enabled` - true if i18n is enabled. default `true`.
    - `lng` - list of locales. default `['zh-tw']`. mapped to folders under `locales/` directory.

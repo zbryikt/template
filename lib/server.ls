@@ -1,4 +1,4 @@
-require! <[express path colors i18next-http-middleware ./view ./i18n]>
+require! <[express path colors i18next-http-middleware open ./view ./i18n]>
 
 server = do
   init: (opt = {}) ->
@@ -23,5 +23,6 @@ server = do
       server = app.listen opt.port, ->
         delta = if opt.start-time => "( takes #{Date.now! - opt.start-time}ms )" else ''
         console.log "[SERVER] listening on port #{server.address!port} #delta".cyan
+        if opt.open => open "http://localhost:#{server.address!port}"
 
 module.exports = server

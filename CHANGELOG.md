@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.7
+
+ - support auto-open functionality with option `-o` or config `open`. default false ( suppressed )
+
+
 ## 2.1.6
 
  - fix bug: we should require scoped packages with their full name.

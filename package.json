@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
@@ -15,12 +15,12 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server"
+    "start": "npx server -o true"
   },
   "dependencies": {
+    "@loadingio/debounce.js": "0.0.1",
     "chokidar": "^3.0.0",
     "colors": "^1.3.3",
-    "@loadingio/debounce.js": "0.0.1",
     "express": "^4.16.4",
     "fs-extra": "^8.0.0",
     "i18next": "^19.8.3",
@@ -29,6 +29,7 @@
     "js-yaml": "^3.13.1",
     "livescript": "^1.6.0",
     "marked": "0.7.0",
+    "open": "^7.3.0",
     "pug": "^2.0.3",
     "require-reload": "^0.2.2",
     "stylus": "^0.54.5",
