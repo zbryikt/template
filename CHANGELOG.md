@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.8 (upcoming)
+
+ - tweak build script.
+
+
 ## 2.1.7
 
  - support auto-open functionality with option `-o` or config `open`. default false ( suppressed )

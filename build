@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
+set -euo pipefail
 mkdir -p bin
 echo "building cli.js ..."
 echo "#!/usr/bin/env node" > ./bin/cli.js
-./node_modules/.bin/lsc -cbp server.ls >> ./bin/cli.js
+npx lsc -cbp server.ls >> ./bin/cli.js
 chmod 755 ./bin/cli.js
 echo "building lib folder ..."
-./node_modules/.bin/lsc -o ./bin/lib/ -cb lib
+npx lsc -o ./bin/lib/ -cb lib
 echo "building api folder ..."
-./node_modules/.bin/lsc -o ./bin/api/ -cb api
+npx lsc -o ./bin/api/ -cb api
