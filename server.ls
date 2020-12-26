@@ -19,6 +19,10 @@ else
       alias: \c
       description: "config json"
       type: \string
+    .option \port, do
+      alias: \p
+      description: "port to listen"
+      type: \number
     .option \open, do
       alias: \o
       description: "open browser on startup"
@@ -30,6 +34,7 @@ else
   root = argv.r
   cfgfile = argv.c or \config.json
   do-open = argv.o
+  port = argv.p
 
 # legacy support. remove this in future version.
 if !cfgfile => cfgfile = 'config.json'
@@ -46,6 +51,7 @@ if require.main == module =>
     config = JSON.parse(fs.read-file-sync cfgfile .toString!)
     main.set-opt config
   if do-open? => main.set-opt {open: do-open}
+  if port? => main.set-opt {port}
   if root? => process.chdir root
   main.init!
 

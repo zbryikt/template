@@ -1,8 +1,9 @@
 # Change Log
 
-## 2.1.8 (upcoming)
+## 2.1.8
 
  - tweak build script.
+ - add `-p` / `--port` option for assigning port to listen.
 
 
 ## 2.1.7

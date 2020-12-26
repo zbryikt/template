@@ -15,9 +15,9 @@ install required modules
     npm install --save github:zbryikt/template#v2.1.3
 
 
-start server ( both -r and -c are optional ):
+start server ( -r, -p and -c are optional ):
 
-    npx server -r <your-web-root> -c <your-server-config> -o <auto-open:true/false>
+    npx server -r <your-web-root> -c <your-server-config> -o <auto-open:true/false> -p <port>
 
 
 you can also add following in your own package.json:
