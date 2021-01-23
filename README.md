@@ -1,4 +1,4 @@
-# template 
+# template
 
 ## Features
 
@@ -94,6 +94,28 @@ watch.init accepts config with following options:
  - `watcher`
    - `ignores`: files to ignored ( not watched ). array of regular expression against file names.
  - `assets`: array of node module names to be copied to `static/assets` folder. **not stable feature.**
+
+
+## i18n
+
+prepare i18n content under langauges folder (e.g., `en` or `zh-tw`) in `locales` folder, in `yaml` format. Filename maps to `namespace` concept in `i18next`.
+
+i18n data can be used in pug files via `i18n` function. e.g.,
+
+    div= i18n("my-key")
+
+will show `my-key` content defined in locale corresponding `default.yaml`:
+
+    my-key: 這是我的鍵
+
+
+To use a namespaced key, add `:` before key. For example:
+
+    div= i18n("new-ns:another-key")
+
+will access to `another-key` in `new-ns.yaml`. Be sure to add your namespace name in `ns` field of i18n option:
+
+    "i18n": { ...  "ns": ["default", "new-ns"] }
 
 
 ## TODO

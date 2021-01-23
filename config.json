@@ -4,5 +4,5 @@
     "ignores": []
   },
   "assets": [],
-  "i18n": {"lng": ["en","zh-TW"]}
+  "i18n": {"lng": ["en","zh-TW"], "ns": ["default", "alternative"]}
 }
