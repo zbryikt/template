@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.10
+
+ - trim i18n key when use to prevent confusion
+
+
 ## 2.1.9
 
  - add `intlbase` pug function for wrapping url with i18n base.

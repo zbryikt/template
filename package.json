@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
