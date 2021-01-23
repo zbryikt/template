@@ -72,7 +72,7 @@ main = {
     opt == null && (opt = {});
     if (opt.i18n) {
       pugExtapi.i18n = function(it){
-        return opt.i18n.t(it);
+        return opt.i18n.t((it || '').trim());
       };
       pugExtapi.intlbase = function(p){
         p == null && (p = "");
@@ -83,7 +83,7 @@ main = {
         }
       };
       (pugExtapi.filters || (pugExtapi.filters = {})).i18n = function(t, o){
-        return opt.i18n.t(t);
+        return opt.i18n.t((t || '').trim());
       };
       return lc.i18n = opt.i18n;
     }

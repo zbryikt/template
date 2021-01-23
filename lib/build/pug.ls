@@ -32,9 +32,9 @@ pug-extapi = do
 main = do
   opt: (opt = {}) ->
     if opt.i18n =>
-      pug-extapi.i18n = -> opt.i18n.t(it)
+      pug-extapi.i18n = -> opt.i18n.t((it or '').trim!)
       pug-extapi.intlbase = (p = "") -> if opt.i18n.language => path.join("/intl",opt.i18n.language,p) else p
-      pug-extapi.{}filters.i18n = (t, o) -> opt.i18n.t(t)
+      pug-extapi.{}filters.i18n = (t, o) -> opt.i18n.t((t or '').trim!)
       lc.i18n = opt.i18n
   map: (list) ->
     list
