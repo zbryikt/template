@@ -117,6 +117,10 @@ will access to `another-key` in `new-ns.yaml`. Be sure to add your namespace nam
 
     "i18n": { ...  "ns": ["default", "new-ns"] }
 
+additionally, use `intlbase` to wrap path with a i18n based relative path:
+
+    a(href=intlbase('/faq'))
+
 
 ## TODO
 

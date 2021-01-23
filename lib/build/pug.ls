@@ -1,4 +1,4 @@
-require! <[fs fs-extra pug livescript stylus path js-yaml marked ./aux]>
+require! <[fs path fs-extra pug livescript stylus path js-yaml marked ./aux]>
 
 lc = {i18n: {}}
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
@@ -33,6 +33,7 @@ main = do
   opt: (opt = {}) ->
     if opt.i18n =>
       pug-extapi.i18n = -> opt.i18n.t(it)
+      pug-extapi.intlbase = (p = "") -> if opt.i18n.language => path.join("/intl",opt.i18n.language,p) else p
       pug-extapi.{}filters.i18n = (t, o) -> opt.i18n.t(t)
       lc.i18n = opt.i18n
   map: (list) ->
