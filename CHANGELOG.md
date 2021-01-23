@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.1.9
+
+ - add `intlbase` pug function for wrapping url with i18n base.
+
+
 ## 2.1.8
 
  - tweak build script.
