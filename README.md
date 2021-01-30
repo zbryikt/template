@@ -122,6 +122,17 @@ additionally, use `intlbase` to wrap path with a i18n based relative path:
     a(href=intlbase('/faq'))
 
 
+## Pug Include Path
+
+Use `@` to include files in modules:
+
+    include @/ldview/dist/ldview.pug
+
+Use `@static` to include files under `static` folder:
+
+    include @static/assets/sample.pug
+
+
 ## TODO
 
  * support both indir building or src / static building.

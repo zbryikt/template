@@ -4,7 +4,19 @@ lc = {i18n: {}}
 md-options = html: {breaks: true, renderer: new marked.Renderer!}
 marked.set-options md-options.html
 
+resolve = (fn,src,opt) ->
+  if !/^@/.exec(fn) => return path.resolve(path.join(path.dirname(src), fn))
+  try
+    if /^@\//.exec(fn) =>
+      return require.resolve(fn.replace /^@\//, "")
+    else if /^@static\//.exec(fn) =>
+      return path.resolve(path.join(path.dirname(src), fn.replace(/^@static/,'/../../static/')))
+  catch e
+    throw new Error("no such file or directory: #fn")
+
+
 pug-extapi = do
+  plugins: [{resolve}]
   filters: do
     'lsc': (text, opt) -> return livescript.compile(text,{bare:true,header:false})
     'lson': (text, opt) -> return livescript.compile(text,{bare:true,header:false,json:true})

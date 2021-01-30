@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.2.0
+
+ - add module / static path for including pug files
+
+
 ## 2.1.10
 
  - trim i18n key when use to prevent confusion
