@@ -14,7 +14,6 @@ resolve = (fn,src,opt) ->
   catch e
     throw new Error("no such file or directory: #fn")
 
-
 pug-extapi = do
   plugins: [{resolve}]
   filters: do
