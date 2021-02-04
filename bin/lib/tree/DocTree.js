@@ -31,7 +31,7 @@ DocTree.prototype = import$(Object.create(Object.prototype), {
     if (!this.parser) {
       return;
     }
-    this.depend.by[f] = ret = this.parser(content).map(function(it){
+    this.depend.by[f] = ret = this.parser(content, f).map(function(it){
       return path.join(this$.root, path.normalize(it[0] === '/'
         ? it
         : path.join(dir, it)));

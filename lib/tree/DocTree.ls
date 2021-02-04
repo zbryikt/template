@@ -15,7 +15,7 @@ DocTree.prototype = Object.create(Object.prototype) <<< do
     content = fs.read-file-sync f .toString!
     dir = path.dirname path.relative(@root, f)
     if !@parser => return
-    @depend.by[f] = ret = @parser content
+    @depend.by[f] = ret = @parser content, f
       .map ~> path.join(@root, path.normalize(if it.0 == \/ => it else path.join(dir, it)))
     ret.map ~> @depend.on[][it].push f
     ret

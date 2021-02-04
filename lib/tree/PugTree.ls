@@ -1,12 +1,22 @@
-require! <[./DocTree]>
+require! <[./DocTree pug path]>
+pugbuild = require "../build/pug"
 
-pug = new DocTree do
-  parser: (c) ->
+pugtree = new DocTree do
+  parser: (c, f) ->
+    /* use pug dependencies tracking */
+    /*
+    cwd = path.resolve process.cwd!
+    ret2 = pug.compileClientWithDependenciesTracked(
+      c,
+      {basedir: path.join(cwd,path.dirname f), filename: f} <<< pugbuild.extapi
+    )
+    return ret2.dependencies.map(-> it.replace cwd, '../..')
+    */
+    /* old, manual approach */
     ret = c
       .split \\n
       .map -> /\s*(extend|include)\s+(.+)$/.exec(it)
       .filter -> it
       .map -> it.2
-    return ret
 
-module.exports = pug
+module.exports = pugtree
