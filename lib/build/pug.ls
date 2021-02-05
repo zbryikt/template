@@ -58,7 +58,7 @@ main = do
       fs.read-file-sync(src).toString!,
       {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi <<< opt
     )
-  build: (list) ->
+  build: (list, caused-by) ->
     cwd = path.resolve process.cwd!
     list = @map list
 
@@ -71,13 +71,13 @@ main = do
         for {src,des} in list =>
           desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js')
           desh = des.replace('static/', path.join('static', intl) + "/")
-          if !fs.exists-sync(src) or aux.newer(desv, src) => continue
+          if !fs.exists-sync(src) or aux.newer(desv, [src] ++ (caused-by[src] or [])) => continue
           code = fs.read-file-sync src .toString!
           try
             t1 = Date.now!
             if /^\/\/- ?module ?/.exec(code) => continue
 
-            if fs.exists-sync(src) and !aux.newer(desv, src) =>
+            if fs.exists-sync(src) and !aux.newer(desv, [src] ++ (caused-by[src] or [])) =>
               desvdir = path.dirname(desv)
               fs-extra.ensure-dir-sync desvdir
               ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi

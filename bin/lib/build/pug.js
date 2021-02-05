@@ -126,7 +126,7 @@ main = {
       basedir: path.join(cwd, 'src/pug/')
     }, pugExtapi), opt));
   },
-  build: function(list){
+  build: function(list, causedBy){
     var cwd, _, lngs, ref$, consume;
     cwd = path.resolve(process.cwd());
     list = this.map(list);
@@ -145,7 +145,7 @@ main = {
           ref1$ = ref$[i$], src = ref1$.src, des = ref1$.des;
           desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js');
           desh = des.replace('static/', path.join('static', intl) + "/");
-          if (!fs.existsSync(src) || aux.newer(desv, src)) {
+          if (!fs.existsSync(src) || aux.newer(desv, [src].concat(causedBy[src] || []))) {
             continue;
           }
           code = fs.readFileSync(src).toString();
@@ -154,7 +154,7 @@ main = {
             if (/^\/\/- ?module ?/.exec(code)) {
               continue;
             }
-            if (fs.existsSync(src) && !aux.newer(desv, src)) {
+            if (fs.existsSync(src) && !aux.newer(desv, [src].concat(causedBy[src] || []))) {
               desvdir = path.dirname(desv);
               fsExtra.ensureDirSync(desvdir);
               ret = pug.compileClient(code, import$({

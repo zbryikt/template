@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.2.1
+
+ - fix bug: update of dependencies doesn't trigger pug file's rebuilding.
+
+
 ## 2.2.0
 
  - add module / static path for including pug files
