@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.2.2
+
+ - fix bug: pug malformat crashes the whole server
+
+
 ## 2.2.1
 
  - fix bug: update of dependencies doesn't trigger pug file's rebuilding.
