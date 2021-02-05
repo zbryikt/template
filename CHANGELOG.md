@@ -3,6 +3,7 @@
 ## 2.2.1
 
  - fix bug: update of dependencies doesn't trigger pug file's rebuilding.
+ - calculate pug dependencies based on pug native function
 
 
 ## 2.2.0

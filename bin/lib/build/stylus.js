@@ -9,24 +9,27 @@ aux = require('./aux');
 main = {
   map: function(list){
     return list.filter(function(it){
-      return /^src\/styl/.exec(it);
-    }).map(function(src){
-      var des, desMin;
+      return /^src\/styl/.exec(it.file || it);
+    }).map(function(it){
+      var src, mtime, des, desMin;
+      src = it.file || it;
+      mtime = it.mtime || Date.now();
       des = path.normalize(src.replace(/^src\/styl/, "static/css/").replace(/\.styl/, ".css"));
       desMin = des.replace(/\.css$/, '.min.css');
       return {
         src: src,
         des: des,
-        desMin: desMin
+        desMin: desMin,
+        mtime: mtime
       };
     });
   },
   build: function(list, causedBy){
-    var i$, len$, ref$, src, des, desMin, t1, code, desdir, e;
+    var i$, len$, ref$, src, des, desMin, mtime, t1, code, desdir, e;
     list = this.map(list);
     for (i$ = 0, len$ = list.length; i$ < len$; ++i$) {
-      ref$ = list[i$], src = ref$.src, des = ref$.des, desMin = ref$.desMin;
-      if (!fs.existsSync(src) || aux.newer(des, [src].concat(causedBy[src] || []))) {
+      ref$ = list[i$], src = ref$.src, des = ref$.des, desMin = ref$.desMin, mtime = ref$.mtime;
+      if (!fs.existsSync(src) || aux.newer(des, mtime)) {
         continue;
       }
       try {

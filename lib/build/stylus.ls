@@ -3,15 +3,17 @@ require! <[fs fs-extra stylus path uglifycss ./aux]>
 main = do
   map: (list) ->
     list
-      .filter -> /^src\/styl/.exec(it)
-      .map (src) ->
+      .filter -> /^src\/styl/.exec(it.file or it)
+      .map (it) ->
+        src = it.file or it
+        mtime = it.mtime or Date.now!
         des = path.normalize(src.replace(/^src\/styl/, "static/css/").replace(/\.styl/,".css"))
         des-min = des.replace /\.css$/, '.min.css'
-        {src, des, des-min }
+        {src, des, des-min, mtime: mtime }
   build: (list, caused-by) ->
     list = @map list
-    for {src,des,des-min} in list =>
-      if !fs.exists-sync(src) or aux.newer(des, [src] ++ (caused-by[src] or [])) => continue
+    for {src,des,des-min,mtime} in list =>
+      if !fs.exists-sync(src) or aux.newer(des, mtime) => continue
       try
         t1 = Date.now!
         code = fs.read-file-sync src .toString!

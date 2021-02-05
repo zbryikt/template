@@ -109,11 +109,12 @@ main = {
   },
   map: function(list){
     return list.filter(function(it){
-      return /^src\/pug/.exec(it);
+      return /^src\/pug/.exec(it.file || it);
     }).map(function(it){
       return {
-        src: it,
-        des: path.normalize(it.replace(/^src\/pug/, "static/").replace(/\.pug$/, ".html"))
+        src: it.file || it,
+        des: path.normalize(it.file.replace(/^src\/pug/, "static/").replace(/\.pug$/, ".html")),
+        mtime: it.mtime || Date.now()
       };
     });
   },
@@ -140,12 +141,12 @@ main = {
           : ((ref$ = lc.i18n).options || (ref$.options = {})).fallbackLng)
         : Promise.resolve();
       return p.then(function(){
-        var i$, ref$, len$, ref1$, src, des, desv, desh, code, t1, desvdir, ret, t2, desdir, e, results$ = [];
+        var i$, ref$, len$, ref1$, src, des, mtime, desv, desh, code, t1, desvdir, ret, t2, desdir, e, results$ = [];
         for (i$ = 0, len$ = (ref$ = list).length; i$ < len$; ++i$) {
-          ref1$ = ref$[i$], src = ref1$.src, des = ref1$.des;
+          ref1$ = ref$[i$], src = ref1$.src, des = ref1$.des, mtime = ref1$.mtime;
           desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js');
           desh = des.replace('static/', path.join('static', intl) + "/");
-          if (!fs.existsSync(src) || aux.newer(desv, [src].concat(causedBy[src] || []))) {
+          if (!fs.existsSync(src) || aux.newer(desv, mtime)) {
             continue;
           }
           code = fs.readFileSync(src).toString();
@@ -154,7 +155,7 @@ main = {
             if (/^\/\/- ?module ?/.exec(code)) {
               continue;
             }
-            if (fs.existsSync(src) && !aux.newer(desv, [src].concat(causedBy[src] || []))) {
+            if (fs.existsSync(src) && !aux.newer(desv, mtime)) {
               desvdir = path.dirname(desv);
               fsExtra.ensureDirSync(desvdir);
               ret = pug.compileClient(code, import$({

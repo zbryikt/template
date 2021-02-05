@@ -2,6 +2,10 @@ require! <[fs]>
 aux = do
   newer: (f1, files = [], strict = false) ->
     if !fs.exists-sync(f1) => return false
+    if typeof(files) == \number =>
+      mtime = files
+      return if strict => (fs.stat-sync(f1).mtime - mtime) > 0
+      else (fs.stat-sync(f1).mtime - mtime) >= 0
     files = if Array.isArray(files) => files else [files]
     return files.length == files
       .filter (f2) ->

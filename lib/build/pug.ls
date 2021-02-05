@@ -49,8 +49,11 @@ main = do
       lc.i18n = opt.i18n
   map: (list) ->
     list
-      .filter -> /^src\/pug/.exec(it)
-      .map -> {src: it, des: path.normalize(it.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))}
+      .filter -> /^src\/pug/.exec(it.file or it)
+      .map -> do
+        src: it.file or it
+        des: path.normalize(it.file.replace(/^src\/pug/, "static/").replace(/\.pug$/,".html"))
+        mtime: it.mtime or Date.now!
   # handy function to custom build quickly with the same configuration of server watcher.
   compile: (src,opt = {}) ->
     cwd = path.resolve process.cwd!
@@ -68,16 +71,16 @@ main = do
         lc.i18n.changeLanguage(if lng => that else lc.i18n.{}options.fallbackLng)
       else Promise.resolve!
       p.then ->
-        for {src,des} in list =>
+        for {src,des,mtime} in list =>
           desv = des.replace('static/', path.join('.view', intl) + "/").replace(/\.html$/, '.js')
           desh = des.replace('static/', path.join('static', intl) + "/")
-          if !fs.exists-sync(src) or aux.newer(desv, [src] ++ (caused-by[src] or [])) => continue
+          if !fs.exists-sync(src) or aux.newer(desv, mtime) => continue
           code = fs.read-file-sync src .toString!
           try
             t1 = Date.now!
             if /^\/\/- ?module ?/.exec(code) => continue
 
-            if fs.exists-sync(src) and !aux.newer(desv, [src] ++ (caused-by[src] or [])) =>
+            if fs.exists-sync(src) and !aux.newer(desv, mtime) =>
               desvdir = path.dirname(desv)
               fs-extra.ensure-dir-sync desvdir
               ret = pug.compileClient code, {filename: src, basedir: path.join(cwd, 'src/pug/')} <<< pug-extapi

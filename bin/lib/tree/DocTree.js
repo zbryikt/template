@@ -21,8 +21,9 @@ DocTree.prototype = import$(Object.create(Object.prototype), {
   setRoot: function(it){
     return this.root = it;
   },
-  parse: function(f){
-    var content, dir, ret, this$ = this;
+  parse: function(it){
+    var f, content, dir, ret, this$ = this;
+    f = it.file;
     if (!fs.existsSync(f)) {
       return [];
     }
@@ -49,13 +50,13 @@ DocTree.prototype = import$(Object.create(Object.prototype), {
     }
     ref$ = [{}, {}], ret = ref$[0], visited = ref$[1];
     list.map(function(it){
-      return ret[it] = true;
+      return ret[it.file] = true;
     });
     while (list.length) {
-      f = path.normalize(path.relative(this.root, path.join(this.root, list.pop())));
+      f = path.normalize(path.relative(this.root, path.join(this.root, list.pop().file)));
       if (!visited[f] && this.depend.on[f]) {
-        list = list.concat(this.depend.on[f]);
-        this.depend.on[f].map(fn$);
+        list = list.concat(this.depend.on[f].map(fn$));
+        this.depend.on[f].map(fn1$);
       }
       visited[f] = true;
     }
@@ -67,6 +68,12 @@ DocTree.prototype = import$(Object.create(Object.prototype), {
       return results$;
     }());
     function fn$(it){
+      return {
+        file: it,
+        mtime: fs.statSync(it).mtime
+      };
+    }
+    function fn1$(it){
       return ret[it] = true;
     }
   }

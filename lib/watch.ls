@@ -69,10 +69,12 @@ watch = do
     @update f
   update-debounced: debounce 100, ->
     # get pending files and handle them
-    [list, cat, @pending] = [[k for k of @pending], {}, {}]
-    list
-      .map (f) ~> [f, (ret = /\.([^.]+)$/.exec(f))]
-      .map -> cat[][if it.1 => it.1.1 else ""].push it.0
+    list = []
+    for k,v of @pending => list.push {file: k, mtime: Math.max.apply(Math, [t for f,t of v])}
+    [@pending, cat] = [{}, {}]
+    for item in list =>
+      ret = /\.([^.]+)$/.exec(item.file)
+      cat[][if ret => ret.1 else ''].push item
     for k,v of cat => @handle[]["build.#k"].map (cb) -> cb v
     @handle[]["build"].map (cb) -> cb list
 
@@ -82,8 +84,9 @@ watch = do
       # fetch pre-dependency, and put in pending
       list = if Array.isArray(f) => f else [f]
       list = (list ++ list.map(~> @depend.on[it]).reduce(((a,b) -> a ++ b), [])).filter(->it)
-      list.map ~> @pending{}[it][f] = true
+      list.map ~> if fs.exists-sync(f) => @pending{}[it][f] = fs.stat-sync(f).mtime
       @update-debounced!
+
     catch e
       console.log "[WATCHER] Update failed with following information: ".red
       console.log e
@@ -97,9 +100,14 @@ watch = do
 process = (parser, builder) -> (list) ->
   files = {}
   for n in list =>
-    parser.parse n .map (f) -> watch.depend.add n, f
+    parser.parse n .map (f) -> watch.depend.add n.file, f
     parser.affect(n).map -> files[][it].push n
-  builder.build [k for k of files], files
+  list = []
+  for k,v of files =>
+    list.push do
+      file: k
+      mtime: Math.max.apply(Math, v.map(-> it.mtime))
+  builder.build list, files
 
 watch.on \build.pug, process(PugTree, pug)
 watch.on \build.styl, process(StylusTree, stylus)

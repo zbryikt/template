@@ -141,31 +141,37 @@ watch = {
     return this.update(f);
   },
   updateDebounced: debounce(100, function(){
-    var k, ref$, list, cat, v, key$;
-    ref$ = [
-      (function(){
-        var results$ = [];
-        for (k in this.pending) {
-          results$.push(k);
-        }
-        return results$;
-      }.call(this)), {}, {}
-    ], list = ref$[0], cat = ref$[1], this.pending = ref$[2];
-    list.map(function(f){
-      var ret;
-      return [f, ret = /\.([^.]+)$/.exec(f)];
-    }).map(function(it){
-      var key$;
-      return (cat[key$ = it[1] ? it[1][1] : ""] || (cat[key$] = [])).push(it[0]);
-    });
+    var list, k, ref$, v, f, t, cat, i$, len$, item, ret, key$;
+    list = [];
+    for (k in ref$ = this.pending) {
+      v = ref$[k];
+      list.push({
+        file: k,
+        mtime: Math.max.apply(Math, (fn$()))
+      });
+    }
+    ref$ = [{}, {}], this.pending = ref$[0], cat = ref$[1];
+    for (i$ = 0, len$ = list.length; i$ < len$; ++i$) {
+      item = list[i$];
+      ret = /\.([^.]+)$/.exec(item.file);
+      (cat[key$ = ret ? ret[1] : ''] || (cat[key$] = [])).push(item);
+    }
     for (k in cat) {
       v = cat[k];
-      ((ref$ = this.handle)[key$ = "build." + k] || (ref$[key$] = [])).map(fn$);
+      ((ref$ = this.handle)[key$ = "build." + k] || (ref$[key$] = [])).map(fn1$);
     }
     return ((ref$ = this.handle)["build"] || (ref$["build"] = [])).map(function(cb){
       return cb(list);
     });
-    function fn$(cb){
+    function fn$(){
+      var ref$, results$ = [];
+      for (f in ref$ = v) {
+        t = ref$[f];
+        results$.push(t);
+      }
+      return results$;
+    }
+    function fn1$(cb){
       return cb(v);
     }
   }),
@@ -185,7 +191,9 @@ watch = {
       });
       list.map(function(it){
         var ref$;
-        return ((ref$ = this$.pending)[it] || (ref$[it] = {}))[f] = true;
+        if (fs.existsSync(f)) {
+          return ((ref$ = this$.pending)[it] || (ref$[it] = {}))[f] = fs.statSync(f).mtime;
+        }
       });
       return this.updateDebounced();
     } catch (e$) {
@@ -197,25 +205,30 @@ watch = {
 };
 process = function(parser, builder){
   return function(list){
-    var files, i$, len$, n, k;
+    var files, i$, len$, n, k, v;
     files = {};
     for (i$ = 0, len$ = list.length; i$ < len$; ++i$) {
       n = list[i$];
       parser.parse(n).map(fn$);
       parser.affect(n).map(fn1$);
     }
-    return builder.build((function(){
-      var results$ = [];
-      for (k in files) {
-        results$.push(k);
-      }
-      return results$;
-    }()), files);
+    list = [];
+    for (k in files) {
+      v = files[k];
+      list.push({
+        file: k,
+        mtime: Math.max.apply(Math, v.map(fn2$))
+      });
+    }
+    return builder.build(list, files);
     function fn$(f){
-      return watch.depend.add(n, f);
+      return watch.depend.add(n.file, f);
     }
     function fn1$(it){
       return (files[it] || (files[it] = [])).push(n);
+    }
+    function fn2$(it){
+      return it.mtime;
     }
   };
 };

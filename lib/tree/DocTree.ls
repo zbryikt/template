@@ -10,7 +10,8 @@ DocTree = (opt={})->
 
 DocTree.prototype = Object.create(Object.prototype) <<< do
   set-root: -> @root = it
-  parse: (f) ->
+  parse: (it) ->
+    f = it.file
     if !fs.exists-sync(f) => return []
     content = fs.read-file-sync f .toString!
     dir = path.dirname path.relative(@root, f)
@@ -23,11 +24,11 @@ DocTree.prototype = Object.create(Object.prototype) <<< do
   affect: (list) ->
     if !Array.isArray(list) => list = [list]
     [ret, visited] = [{}, {}]
-    list.map -> ret[it] = true
+    list.map -> ret[it.file] = true
     while list.length
-      f = path.normalize(path.relative @root, path.join(@root, list.pop!))
+      f = path.normalize(path.relative @root, path.join(@root, list.pop!file))
       if !visited[f] and @depend.on[f] =>
-        list ++= @depend.on[f]
+        list ++= @depend.on[f].map -> {file: it, mtime: fs.stat-sync(it).mtime}
         @depend.on[f].map -> ret[it] = true
       visited[f] = true
     return [k for k of ret]
