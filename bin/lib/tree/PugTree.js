@@ -7,15 +7,15 @@ pugbuild = require("../build/pug");
 pugtree = new DocTree({
   parser: function(c, f){
     /* use pug dependencies tracking */
-    var cwd, ret2, e, ret;
-    cwd = path.resolve(process.cwd());
+    var cwd, ret, e;
+    cwd = path.resolve(path.join(process.cwd(), this.root));
     try {
-      ret2 = pug.compileClientWithDependenciesTracked(c, import$({
+      ret = pug.compileClientWithDependenciesTracked(c, import$({
         basedir: path.join(cwd, path.dirname(f)),
         filename: f
       }, pugbuild.extapi));
-      return ret2.dependencies.map(function(it){
-        return it.replace(cwd, '../..');
+      return ret.dependencies.map(function(it){
+        return it.replace(cwd, '/../..');
       });
     } catch (e$) {
       e = e$;

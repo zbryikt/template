@@ -4,13 +4,13 @@ pugbuild = require "../build/pug"
 pugtree = new DocTree do
   parser: (c, f) ->
     /* use pug dependencies tracking */
-    cwd = path.resolve process.cwd!
+    cwd = path.resolve path.join(process.cwd!, @root)
     try
-      ret2 = pug.compileClientWithDependenciesTracked(
+      ret = pug.compileClientWithDependenciesTracked(
         c,
         {basedir: path.join(cwd,path.dirname f), filename: f} <<< pugbuild.extapi
       )
-      return ret2.dependencies.map(-> it.replace cwd, '../..')
+      return ret.dependencies.map(-> it.replace cwd, '/../..')
     catch e
       try
         ret = c

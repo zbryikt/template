@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.2.3
+
+ - fix bug: pug dependency path resolving incorrect
+
+
 ## 2.2.2
 
  - fix bug: pug malformat crashes the whole server
