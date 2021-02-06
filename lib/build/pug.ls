@@ -5,7 +5,9 @@ md-options = html: {breaks: true, renderer: new marked.Renderer!}
 marked.set-options md-options.html
 
 resolve = (fn,src,opt) ->
-  if !/^@/.exec(fn) => return path.resolve(path.join(path.dirname(src), fn))
+  if !/^@/.exec(fn) =>
+    return if /^\//.exec(fn) => path.resolve(path.join(opt.basedir, fn))
+    else path.resolve(path.join(path.dirname(src),fn))
   try
     if /^@\//.exec(fn) =>
       return require.resolve(fn.replace /^@\//, "")

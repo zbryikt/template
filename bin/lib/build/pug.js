@@ -23,7 +23,9 @@ marked.setOptions(mdOptions.html);
 resolve = function(fn, src, opt){
   var e;
   if (!/^@/.exec(fn)) {
-    return path.resolve(path.join(path.dirname(src), fn));
+    return /^\//.exec(fn)
+      ? path.resolve(path.join(opt.basedir, fn))
+      : path.resolve(path.join(path.dirname(src), fn));
   }
   try {
     if (/^@\//.exec(fn)) {
