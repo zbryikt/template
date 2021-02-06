@@ -64,8 +64,8 @@ watch = do
   unlink: (f) -> 
     ret = /\.(.+)$/.exec(f)
     k = if !ret => "" else ret.1
-    @handle[]["unlink.#k"].map (cb) -> cb [f]
-    @handle[]["unlink"].map (cb) -> cb [f]
+    @handle[]["unlink.#k"].map (cb) -> cb [{file: f}]
+    @handle[]["unlink"].map (cb) -> cb [{file: f}]
     @update f
   update-debounced: debounce 100, ->
     # get pending files and handle them
@@ -119,7 +119,7 @@ watch.on \unlink.ls, -> lsc.unlink it
 watch.custom do
   files: <[static bundle.json]>
   ignored: (f) ~> watch.ignores.filter(-> it.exec(f)).length or /static\/(js|css)\/pack\//.exec(f)
-  update: -> bundle.build [it]
-  unlink: -> bundle.unlink [it]
+  update: -> bundle.build [{file: it}]
+  unlink: -> bundle.unlink [{file: it}]
 
 module.exports = watch

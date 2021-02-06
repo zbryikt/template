@@ -133,10 +133,14 @@ watch = {
       ? ""
       : ret[1];
     ((ref$ = this.handle)[key$ = "unlink." + k] || (ref$[key$] = [])).map(function(cb){
-      return cb([f]);
+      return cb([{
+        file: f
+      }]);
     });
     ((ref$ = this.handle)["unlink"] || (ref$["unlink"] = [])).map(function(cb){
-      return cb([f]);
+      return cb([{
+        file: f
+      }]);
     });
     return this.update(f);
   },
@@ -254,10 +258,14 @@ watch.custom({
     }).length || /static\/(js|css)\/pack\//.exec(f);
   },
   update: function(it){
-    return bundle.build([it]);
+    return bundle.build([{
+      file: it
+    }]);
   },
   unlink: function(it){
-    return bundle.unlink([it]);
+    return bundle.unlink([{
+      file: it
+    }]);
   }
 });
 module.exports = watch;
