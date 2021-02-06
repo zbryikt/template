@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "npm": ">=6.4.1"
   },
   "scripts": {
-    "start": "npx server -o true"
+    "start": "./bin/cli.js -o true"
   },
   "dependencies": {
     "@loadingio/debounce.js": "0.0.1",
