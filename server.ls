@@ -1,5 +1,5 @@
 t1 = Date.now!
-require! <[fs path yargs]>
+require! <[fs path yargs colors @plotdb/srcbuild]>
 
 lib = path.dirname fs.realpathSync __filename
 
@@ -44,7 +44,8 @@ main = do
   set-opt: (o) -> @opt <<< o
   init: ->
     server.init @opt
-    watch.init @opt
+      .then ~> srcbuild.i18n(@opt.i18n or {})
+      .then (i18n) -> srcbuild.lsp {base: root, i18n}
 
 if require.main == module =>
   if fs.exists-sync(cfgfile) =>
