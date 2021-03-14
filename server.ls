@@ -4,7 +4,6 @@ require! <[fs path yargs colors @plotdb/srcbuild]>
 lib = path.dirname fs.realpathSync __filename
 
 server = require "#lib/lib/server"
-watch = require "#lib/lib/watch"
 api = require "#lib/api/index"
 
 # legacy support. remove this in future version.
