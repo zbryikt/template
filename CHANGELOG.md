@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.3
+
+ - enable i18n only if i18n in option is defined.
+
+
 ## v2.3.2
 
  - upgrade `@plotdb/srcbuild` for bug fixing
