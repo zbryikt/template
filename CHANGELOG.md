@@ -1,5 +1,18 @@
 # Change Log
 
+## v2.3.1
+
+ - update `@plotdb/srcbuild` for pug path bug fix
+ - add test case for pug inclusion and extend
+ - fix bug: lsp should use '.' instead of
+
+
+## v2.3.0
+
+ - use `@plotdb/srcbuild` for source code building
+ - remove local source code building codes
+
+
 ## v2.2.4
 
  - fix bug: incorrect path resolving in customized resolve plugin 
