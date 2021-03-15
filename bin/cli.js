@@ -51,7 +51,7 @@ main = {
   init: function(){
     var this$ = this;
     return server.init(this.opt).then(function(){
-      return srcbuild.i18n(this$.opt.i18n || {});
+      return srcbuild.i18n(this$.opt.i18n);
     }).then(function(i18n){
       return srcbuild.lsp({
         base: '.',

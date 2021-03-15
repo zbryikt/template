@@ -43,7 +43,7 @@ main = do
   set-opt: (o) -> @opt <<< o
   init: ->
     server.init @opt
-      .then ~> srcbuild.i18n(@opt.i18n or {})
+      .then ~> srcbuild.i18n(@opt.i18n)
       .then (i18n) -> srcbuild.lsp {base: '.', i18n}
 
 if require.main == module =>
