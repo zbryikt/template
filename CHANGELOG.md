@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.3.2
+
+ - upgrade `@plotdb/srcbuild` for bug fixing
+ - add test case for special pug include path rule
+
+
 ## v2.3.1
 
  - update `@plotdb/srcbuild` for pug path bug fix
