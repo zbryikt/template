@@ -54,7 +54,7 @@ main = {
       return srcbuild.i18n(this$.opt.i18n || {});
     }).then(function(i18n){
       return srcbuild.lsp({
-        base: root,
+        base: '.',
         i18n: i18n
       });
     });
