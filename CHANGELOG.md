@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.5
+
+ - update `@plotdb/srcbuild` for bundling support
+
+
 ## v2.3.4
 
  - update `@plotdb/srcbuild` for bug fixing

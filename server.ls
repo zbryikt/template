@@ -44,7 +44,7 @@ main = do
   init: ->
     server.init @opt
       .then ~> srcbuild.i18n(@opt.i18n)
-      .then (i18n) -> srcbuild.lsp {base: '.', i18n}
+      .then (i18n) -> srcbuild.lsp {base: '.', i18n, bundle: {configFile: 'bundle.json'}}
 
 if require.main == module =>
   if fs.exists-sync(cfgfile) =>

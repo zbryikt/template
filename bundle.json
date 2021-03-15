@@ -1,8 +1,8 @@
 {
   "css": {
-    "vendor": ["css/base.css"]
+    "vendor": ["static/css/base.css"]
   },
   "js": {
-    "vendor": ["js/test.js"]
+    "vendor": ["static/js/test.js"]
   }
 }

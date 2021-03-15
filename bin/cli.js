@@ -55,7 +55,10 @@ main = {
     }).then(function(i18n){
       return srcbuild.lsp({
         base: '.',
-        i18n: i18n
+        i18n: i18n,
+        bundle: {
+          configFile: 'bundle.json'
+        }
       });
     });
   }
