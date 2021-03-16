@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.7
+
+ - update `@plotdb/srcbuild`
+
+
 ## v2.3.6
 
  - update `@plotdb/srcbuild` for dependencies tracking bug fix
