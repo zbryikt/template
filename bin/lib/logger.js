@@ -2,7 +2,7 @@
 var colors, logger;
 colors = require('colors');
 logger = {};
-[['info', 'green'], ['warn', 'yellow'], ['error', 'red']].map(function(n){
+[['debug', 'blue'], ['info', 'green'], ['warn', 'yellow'], ['error', 'red']].map(function(n){
   return logger[n[0]] = function(){
     var args, res$, i$, to$;
     res$ = [];

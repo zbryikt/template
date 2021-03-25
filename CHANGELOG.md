@@ -1,5 +1,18 @@
 # Change Log
 
+## v2.3.9
+
+ - add `debug` level in default logger.
+ - update `@plotdb/srcbuild` for view engine bug fixing
+ - remove builtin pug view engine
+ - remove useless `watch.ls`
+
+
+## v2.3.8
+
+ - update `@plotdb/srcbuild`
+
+
 ## v2.3.7
 
  - update `@plotdb/srcbuild`
