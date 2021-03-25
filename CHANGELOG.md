@@ -10,7 +10,7 @@
 
 ## v2.3.8
 
- - update `@plotdb/srcbuild`
+ - skipped version due to typo
 
 
 ## v2.3.7
