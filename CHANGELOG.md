@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.11
+
+ - upgrade `@plotdb/srcbuild` to `0.0.13` for fixing view/pug -> ext/pug parameter passing issue
+
+
 ## v2.3.10
 
  - upgrade `@plotdb/srcbuild` to `0.0.12` for fixing base, desdir and bundling path log bug

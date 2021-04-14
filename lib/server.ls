@@ -11,7 +11,7 @@ server = do
         if i18n => app.use i18next-http-middleware.handle i18n, {ignoreRoutes: <[]>}
 
         # we precompile all view pug into .view folder, which can be used by our custom pug view engine.
-        app.engine 'pug', pug({logger: @log, i18n: i18n, viewdir: '.view', srcdir: 'src/pug'})
+        app.engine 'pug', pug({logger: @log, i18n: i18n, viewdir: '.view', srcdir: 'src/pug', desdir: 'static'})
         app.set 'view engine', 'pug'
         app.set 'views', path.join(cwd, './src/pug/')
         app.locals.viewdir = path.join(cwd, './.view/')
