@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.10
+
+ - upgrade `@plotdb/srcbuild` to `0.0.12` for fixing base, desdir and bundling path log bug
+
+
 ## v2.3.9
 
  - add `debug` level in default logger.
