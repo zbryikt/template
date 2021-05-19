@@ -4,7 +4,4 @@
 })(function(arg$){
   var app;
   app = arg$.app;
-  return app.get('/view-test', function(req, res){
-    return res.render('view.pug', {});
-  });
 });

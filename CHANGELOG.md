@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.12
+
+ - fix module interface issue by removing non-existed dependency
+
+
 ## v2.3.11
 
  - upgrade `@plotdb/srcbuild` to `0.0.13` for fixing view/pug -> ext/pug parameter passing issue

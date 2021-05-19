@@ -26,7 +26,8 @@ server = {
         logger: this$.log,
         i18n: i18n,
         viewdir: '.view',
-        srcdir: 'src/pug'
+        srcdir: 'src/pug',
+        desdir: 'static'
       }));
       app.set('view engine', 'pug');
       app.set('views', path.join(cwd, './src/pug/'));

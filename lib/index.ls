@@ -1,2 +1,2 @@
-require! <[./server ./build/pug]>
-module.exports = {server, pug}
+require! <[./server]>
+module.exports = {server}
