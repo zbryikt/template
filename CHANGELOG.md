@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.13
+
+ - upgrade `@plotdb/srcbuild` for new pug api
+
+
 ## v2.3.12
 
  - fix module interface issue by removing non-existed dependency
