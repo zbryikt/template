@@ -12,7 +12,7 @@
 
 install required modules
 
-    npm install --save github:zbryikt/template#v2.1.3
+    npm install --save @zbryikt/template
 
 
 start server ( -r, -p and -c are optional ):

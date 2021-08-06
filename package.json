@@ -1,10 +1,13 @@
 {
   "author": "zbryikt",
-  "name": "template",
+  "name": "@zbryikt/template",
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
   "version": "2.3.13",
+  "files": [
+    "bin/**/*"
+  ],
   "homepage": "https://github.com/zbryikt/template",
   "repository": {
     "type": "git",
