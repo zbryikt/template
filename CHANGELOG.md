@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.14 (upcoming)
+
+ - upgrade `path-parse` for resolving ReDoS vulnerability
+
+
 ## v2.3.13
 
  - upgrade `@plotdb/srcbuild` for new pug api
