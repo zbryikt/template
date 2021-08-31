@@ -1,8 +1,9 @@
 # Change Log
 
-## v2.3.14 (upcoming)
+## v2.3.14
 
  - upgrade `path-parse` for resolving ReDoS vulnerability
+ - upgrade `@plotdb/srcbuild` for supporting glslify transformation of lsc files
 
 
 ## v2.3.13
