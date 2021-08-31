@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.16
+
+ - upgrade `@plotdb/srcbuild` for `json` reading feature
+
+
 ## v2.3.15
 
  - upgrade `@plotdb/srcbuild` for bug fixing
