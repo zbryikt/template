@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.15
+
+ - upgrade `@plotdb/srcbuild` for bug fixing
+
+
 ## v2.3.14
 
  - upgrade `path-parse` for resolving ReDoS vulnerability
