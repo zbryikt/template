@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.17
+
+ - bump `@plotdb/srcubild` version to 0.0.18 for livescript building failed issue
+
+
 ## v2.3.16
 
  - upgrade `@plotdb/srcbuild` for `json` reading feature
