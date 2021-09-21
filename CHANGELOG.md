@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.18
+
+ - bump stylus and @plotdb/srcbuild version for removing deprecated dependencies
+
+
 ## v2.3.17
 
  - bump `@plotdb/srcubild` version to 0.0.18 for livescript building failed issue
