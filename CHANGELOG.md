@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.20
+
+ - bump @plotdb/srcbuild version for bug fixing
+
+
 ## v2.3.19
 
  - bump @plotdb/srcbuild version for resolving module from basedir in ext/pug
