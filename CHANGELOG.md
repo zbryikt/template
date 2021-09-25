@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.19
+
+ - bump @plotdb/srcbuild version for resolving module from basedir in ext/pug
+
+
 ## v2.3.18
 
  - bump stylus and @plotdb/srcbuild version for removing deprecated dependencies
