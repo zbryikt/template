@@ -53,13 +53,12 @@ main = {
     return server.init(this.opt).then(function(){
       return srcbuild.i18n(this$.opt.i18n);
     }).then(function(i18n){
-      return srcbuild.lsp({
-        base: '.',
-        i18n: i18n,
+      var ref$;
+      return srcbuild.lsp((ref$ = import$({
         bundle: {
           configFile: 'bundle.json'
         }
-      });
+      }, this$.opt.lsp || {}), ref$.base = '.', ref$.i18n = i18n, ref$));
     });
   }
 };

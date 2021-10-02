@@ -6,7 +6,7 @@ lib = path.dirname fs.realpathSync __filename
 server = require "#lib/lib/server"
 api = require "#lib/api/index"
 
-# legacy support. remove this in future version.
+# TODO legacy support. remove this in future version.
 if /\.json$/.exec(process.argv.2 or '') => cfgfile = process.argv.2
 else
   argv = yargs
@@ -31,11 +31,11 @@ else
     .check (argv, options) -> return true
     .argv
   root = argv.r
-  cfgfile = argv.c or \config.json
+  cfgfile = argv.c or \config.json # TODO legacy default value. set to null in future version.
   do-open = argv.o
   port = argv.p
 
-# legacy support. remove this in future version.
+# TODO legacy support. remove this in future version.
 if !cfgfile => cfgfile = 'config.json'
 
 main = do
@@ -44,7 +44,8 @@ main = do
   init: ->
     server.init @opt
       .then ~> srcbuild.i18n(@opt.i18n)
-      .then (i18n) -> srcbuild.lsp {base: '.', i18n, bundle: {configFile: 'bundle.json'}}
+      .then (i18n) ~>
+        srcbuild.lsp({bundle: {configFile: 'bundle.json'}} <<< (@opt.lsp or {}) <<< {base: '.', i18n})
 
 if require.main == module =>
   if fs.exists-sync(cfgfile) =>

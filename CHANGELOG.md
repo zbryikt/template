@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.3.22
+
+ - bump @plotdb/srcbuild version for tweaking pug generation
+ - add legacy / deprecated notes for cfgfile
+ - add `lsp` option in config
+
+
 ## v2.3.21
 
  - bump @plotdb/srcbuild version for bug fixing
