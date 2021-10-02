@@ -3,9 +3,9 @@ set -euo pipefail
 mkdir -p bin
 echo "building cli.js ..."
 echo "#!/usr/bin/env node" > ./bin/cli.js
-npx lsc -cbp server.ls >> ./bin/cli.js
+./node_modules/.bin/lsc -cbp server.ls >> ./bin/cli.js
 chmod 755 ./bin/cli.js
 echo "building lib folder ..."
-npx lsc -o ./bin/lib/ -cb lib
+./node_modules/.bin/lsc -o ./bin/lib/ -cb lib
 echo "building api folder ..."
-npx lsc -o ./bin/api/ -cb api
+./node_modules/.bin/lsc -o ./bin/api/ -cb api
