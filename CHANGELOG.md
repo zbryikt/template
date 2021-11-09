@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.24
+
+ - bump @plotdb/srcbuild version for log removal
+
+
 ## v2.3.23
 
  - bump @plotdb/srcbuild version for builder update
