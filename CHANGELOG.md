@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.23
+
+ - bump @plotdb/srcbuild version for builder update
+
+
 ## v2.3.22
 
  - bump @plotdb/srcbuild version for tweaking pug generation
