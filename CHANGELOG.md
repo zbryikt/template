@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.26
+
+ - bump @plotdb/srcbuild version for disabling js compression in minification
+
+
 ## v2.3.25
 
  - bump @plotdb/srcbuild version for js minifying compression issue
