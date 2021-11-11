@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.27
+
+ - bump @plotdb/srcbuild version for bundler bug fixing
+
+
 ## v2.3.26
 
  - bump @plotdb/srcbuild version for disabling js compression in minification
