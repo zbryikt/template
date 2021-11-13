@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.28
+
+ - bump @plotdb/srcbuild version for natively supporting script and css loading
+
+
 ## v2.3.27
 
  - bump @plotdb/srcbuild version for bundler bug fixing
