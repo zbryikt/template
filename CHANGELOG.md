@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.31
+
+ - bump @plotdb/srcbuild version for bundler relative path feature
+
+
 ## v2.3.30
 
  - bump @plotdb/srcbuild version for stylus dependency and script option bug fixing
