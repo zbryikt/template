@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.30
+
+ - bump @plotdb/srcbuild version for stylus dependency and script option bug fixing
+
+
 ## v2.3.29
 
  - bump @plotdb/srcbuild version for script and css loading bug fixing
