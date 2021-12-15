@@ -21,7 +21,7 @@
     "start": "./bin/cli.js -o true"
   },
   "dependencies": {
-    "@loadingio/debounce.js": "0.0.1",
+    "@loadingio/debounce.js": "^0.0.1",
     "@plotdb/srcbuild": "^0.0.33",
     "chokidar": "^3.0.0",
     "colors": "^1.3.3",
@@ -37,8 +37,8 @@
     "pug": "^3.0.2",
     "require-reload": "^0.2.2",
     "stylus": "^0.55.0",
-    "uglify-js": "=3.2.0",
-    "uglifycss": "0.0.29",
+    "uglify-js": "^3.2.0",
+    "uglifycss": "^0.0.29",
     "yargs": "^16.1.0"
   },
   "bin": {
