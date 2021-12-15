@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.32
+
+ - bump @plotdb/srcbuild version for libLoader bug fixing
+
+
 ## v2.3.31
 
  - bump @plotdb/srcbuild version for bundler relative path feature
