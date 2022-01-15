@@ -1,4 +1,4 @@
-require! <[colors]>
+require! <[@plotdb/colors]>
 
 logger = {}
 [<[debug blue]> <[info green]> <[warn yellow]> <[error red]>].map (n) ->

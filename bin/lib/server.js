@@ -2,7 +2,7 @@
 var express, path, colors, i18nextHttpMiddleware, open, pug, i18n, logger, server;
 express = require('express');
 path = require('path');
-colors = require('colors');
+colors = require('@plotdb/colors');
 i18nextHttpMiddleware = require('i18next-http-middleware');
 open = require('open');
 pug = require('@plotdb/srcbuild/dist/view/pug');

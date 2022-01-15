@@ -1,4 +1,4 @@
-require! <[express path colors i18next-http-middleware open @plotdb/srcbuild/dist/view/pug ./i18n ./logger]>
+require! <[express path @plotdb/colors i18next-http-middleware open @plotdb/srcbuild/dist/view/pug ./i18n ./logger]>
 
 server = do
   init: (opt = {}) ->

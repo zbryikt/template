@@ -1,5 +1,12 @@
 # Change Log
 
+## v2.3.33
+
+ - remove useless `bin/lib/view.js`
+ - use `@plotdb/srcbuild` to replace `colors`
+ - remove useless dependencies
+
+
 ## v2.3.32
 
  - bump @plotdb/srcbuild version for libLoader bug fixing

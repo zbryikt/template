@@ -1,5 +1,5 @@
 t1 = Date.now!
-require! <[fs path yargs colors @plotdb/srcbuild]>
+require! <[fs path yargs @plotdb/colors @plotdb/srcbuild]>
 
 lib = path.dirname fs.realpathSync __filename
 

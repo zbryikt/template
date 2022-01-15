@@ -23,7 +23,7 @@ html
     div: :i18n i18n key
     div= i18n("alternative:namespace-test")
     div= intlbase("/")
-    include @/ldview/dist/ldview.pug
+    include @/ldview/dist/index.pug
     +scope("hi"): div include module pug with #[code @] works.
     include @static/assets/sample.pug
     include module.pug
