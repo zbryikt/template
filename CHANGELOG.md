@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.3.35
+
+ - upgrade minimist for vulnerability fixing
+ - upgrade `@plotdb/srcbuild` from v0.0.38 to v0.0.43
+
+
 ## v2.3.34
 
  - upgrade `@plotdb/srcbuild` for fixing dependency issue
