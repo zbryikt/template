@@ -16,7 +16,7 @@ server = {
     return i18n(opt.i18n).then(function(i18n){
       var app, cwd;
       this$.app = app = express();
-      cwd = process.cwd();
+      cwd = path.resolve(opt.feroot || '.');
       if (i18n) {
         app.use(i18nextHttpMiddleware.handle(i18n, {
           ignoreRoutes: []
@@ -25,18 +25,18 @@ server = {
       app.engine('pug', pug({
         logger: this$.log,
         i18n: i18n,
-        viewdir: '.view',
-        srcdir: 'src/pug',
-        desdir: 'static'
+        viewdir: path.join(cwd, '.view'),
+        srcdir: path.join(cwd, 'src/pug'),
+        desdir: path.join(cwd, 'static')
       }));
       app.set('view engine', 'pug');
-      app.set('views', path.join(cwd, './src/pug/'));
-      app.locals.viewdir = path.join(cwd, './.view/');
+      app.set('views', path.join(cwd, 'src/pug/'));
+      app.locals.viewdir = path.join(cwd, '.view/');
       app.locals.basedir = app.get('views');
       if (opt.api) {
         opt.api(this$);
       }
-      app.use('/', express['static']('static'));
+      app.use('/', express['static'](path.join(cwd, 'static')));
       this$.log.info(("express initialized in " + app.get('env') + " mode").green);
       return new Promise(function(res, rej){
         var server;

@@ -79,6 +79,7 @@ server.init accepts config with following options:
  - `startTime` - optional time for providing initialization elapsed time information.
  - `api` - functions for customizing server. executed before server started
  - `open` - true to open browser page when server starts. default false
+ - `feroot` - frontend root for serving static file and building view files. default `.`.
  - `i18n` - i18n options including:
    - `enabled` - true if i18n is enabled. default `true`.
    - `lng` - list of locales. default `['zh-tw']`. mapped to folders under `locales/` directory.

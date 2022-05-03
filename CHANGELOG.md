@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.3.36
+
+ - upgrade @plotdb/srcbuild` from v0.0.43 to v0.0.45 with customizable watcher root 
+ - support customizable `feroot` in server init option.
+
+
 ## v2.3.35
 
  - upgrade minimist for vulnerability fixing
