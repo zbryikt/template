@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.37
+
+ - upgrade @plotdb/srcbuild` from v0.0.45 to v0.0.46 for intlbase and watcher behavior change
+
+
 ## v2.3.36
 
  - upgrade @plotdb/srcbuild` from v0.0.43 to v0.0.45 with customizable watcher root 
