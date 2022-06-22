@@ -1,5 +1,10 @@
 # Change Log
 
+## v.2.3.38
+
+ - upgrade @plotdb/srcbuild` from v0.0.46 to v0.0.47 for disabling debugCompile option
+
+
 ## v2.3.37
 
  - upgrade @plotdb/srcbuild` from v0.0.45 to v0.0.46 for intlbase and watcher behavior change
