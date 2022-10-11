@@ -1,18 +1,25 @@
 # Change Log
 
-## v.2.3.38
+## v2.3.39
 
- - upgrade @plotdb/srcbuild` from v0.0.46 to v0.0.47 for disabling debugCompile option
+ - upgrade `@plotdb/srcbuild` from v0.0.47 to v0.0.52
+ - upgrade `@plotdb/colors` from v0.0.1 to v0.0.2
+ - upgrade other dev modules
+
+
+## v2.3.38
+
+ - upgrade `@plotdb/srcbuild` from v0.0.46 to v0.0.47 for disabling debugCompile option
 
 
 ## v2.3.37
 
- - upgrade @plotdb/srcbuild` from v0.0.45 to v0.0.46 for intlbase and watcher behavior change
+ - upgrade `@plotdb/srcbuild` from v0.0.45 to v0.0.46 for intlbase and watcher behavior change
 
 
 ## v2.3.36
 
- - upgrade @plotdb/srcbuild` from v0.0.43 to v0.0.45 with customizable watcher root 
+ - upgrade `@plotdb/srcbuild` from v0.0.43 to v0.0.45 with customizable watcher root 
  - support customizable `feroot` in server init option.
 
 
