@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.3.39",
+  "version": "2.3.40",
   "files": [
     "bin/**/*"
   ],
@@ -21,7 +21,7 @@
     "start": "./bin/cli.js -o true"
   },
   "dependencies": {
-    "@plotdb/srcbuild": "^0.0.52",
+    "@plotdb/srcbuild": "^0.0.53",
     "@plotdb/colors": "^0.0.2",
     "chokidar": "^3.0.0",
     "express": "^4.16.4",

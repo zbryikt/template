@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.40
+
+ - upgrade `@plotdb/srcbuild` from v0.0.52 to v0.0.53
+
+
 ## v2.3.39
 
  - upgrade `@plotdb/srcbuild` from v0.0.47 to v0.0.52
