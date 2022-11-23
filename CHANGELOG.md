@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.3.42
+
+ - upgrade `@plotdb/srcbuild` from v0.0.54 to v0.0.56
+ - audit fix for minimatch
+
+
 ## v2.3.41
 
  - upgrade `@plotdb/srcbuild` from v0.0.53 to v0.0.54
