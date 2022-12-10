@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.3.43
+
+ - upgrade `@plotdb/srcbuild` frmo v0.0.56 to v0.0.59
+ - audit fix vulnerabilities of dependencies
+
+
 ## v2.3.42
 
  - upgrade `@plotdb/srcbuild` from v0.0.54 to v0.0.56
