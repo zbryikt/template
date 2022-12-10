@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.3.44
+
+ - upgrade `@plotdb/srcbuild` frmo v0.0.59 to v0.0.60
+
+
 ## v2.3.43
 
  - upgrade `@plotdb/srcbuild` frmo v0.0.56 to v0.0.59
