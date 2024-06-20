@@ -1,18 +1,24 @@
 # Change Log
 
+## v2.3.46
+
+ - upgrade `@plotdb/srcbuild` to v0.0.68
+ - upgrade `chokidar` to v3.6.0
+
+
 ## v2.3.45
 
- - upgrade `@plotdb/srcbuild` frmo v0.0.60 to v0.0.61
+ - upgrade `@plotdb/srcbuild` from v0.0.60 to v0.0.61
 
 
 ## v2.3.44
 
- - upgrade `@plotdb/srcbuild` frmo v0.0.59 to v0.0.60
+ - upgrade `@plotdb/srcbuild` from v0.0.59 to v0.0.60
 
 
 ## v2.3.43
 
- - upgrade `@plotdb/srcbuild` frmo v0.0.56 to v0.0.59
+ - upgrade `@plotdb/srcbuild` from v0.0.56 to v0.0.59
  - audit fix vulnerabilities of dependencies
 
 
