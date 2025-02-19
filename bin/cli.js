@@ -17,6 +17,10 @@ if (/\.json$/.exec(process.argv[2] || '')) {
     alias: 'r',
     description: "root directory",
     type: 'string'
+  }).option('mix-asset', {
+    alias: 'm',
+    description: "mix asset with pug folder",
+    type: 'bool'
   }).option('config', {
     alias: 'c',
     description: "config json",
@@ -57,7 +61,11 @@ main = {
       return srcbuild.lsp((ref$ = import$({
         bundle: {
           configFile: 'bundle.json'
-        }
+        },
+        asset: argv.m ? {
+          srcdir: 'src/pug',
+          desdir: 'static'
+        } : void 8
       }, this$.opt.lsp || {}), ref$.base = '.', ref$.i18n = i18n, ref$));
     });
   }

@@ -14,6 +14,10 @@ else
       alias: \r
       description: "root directory"
       type: \string
+    .option \mix-asset, do
+      alias: \m
+      description: "mix asset with pug folder"
+      type: \bool
     .option \config, do
       alias: \c
       description: "config json"
@@ -45,7 +49,10 @@ main = do
     server.init @opt
       .then ~> srcbuild.i18n(@opt.i18n)
       .then (i18n) ~>
-        srcbuild.lsp({bundle: {configFile: 'bundle.json'}} <<< (@opt.lsp or {}) <<< {base: '.', i18n})
+        srcbuild.lsp({
+          bundle: {configFile: 'bundle.json'}
+          asset: {srcdir: \src/pug, desdir: \static} if argv.m
+        } <<< (@opt.lsp or {}) <<< {base: '.', i18n})
 
 if require.main == module =>
   if fs.exists-sync(cfgfile) =>
