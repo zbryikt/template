@@ -20,6 +20,16 @@ start server ( -r, -p and -c are optional ):
     npx server -r <your-web-root> -c <your-server-config> -o <auto-open:true/false> -p <port>
 
 
+By default assets won't be copied but you can specify extensions to copy with comma-separated strings:
+
+    npx server -r <your-web-root> -m png,jpg,jpeg,gif
+
+
+or use srcbuild's default values by passing `true`:
+
+    npx server -r <your-web-root> -m true
+
+
 you can also add following in your own package.json:
 
     "scripts": {

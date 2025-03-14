@@ -20,7 +20,7 @@ if (/\.json$/.exec(process.argv[2] || '')) {
   }).option('mix-asset', {
     alias: 'm',
     description: "mix asset with pug folder",
-    type: 'bool'
+    type: 'string'
   }).option('config', {
     alias: 'c',
     description: "config json",
@@ -64,7 +64,8 @@ main = {
         },
         asset: argv.m ? {
           srcdir: 'src/pug',
-          desdir: 'static'
+          desdir: 'static',
+          ext: argv.m && argv.m !== "true" ? argv.m.split(',') : void 8
         } : void 8
       }, this$.opt.lsp || {}), ref$.base = '.', ref$.i18n = i18n, ref$));
     });

@@ -17,7 +17,7 @@ else
     .option \mix-asset, do
       alias: \m
       description: "mix asset with pug folder"
-      type: \bool
+      type: \string
     .option \config, do
       alias: \c
       description: "config json"
@@ -51,7 +51,10 @@ main = do
       .then (i18n) ~>
         srcbuild.lsp({
           bundle: {configFile: 'bundle.json'}
-          asset: {srcdir: \src/pug, desdir: \static} if argv.m
+          asset: {
+            srcdir: \src/pug, desdir: \static
+            ext: argv.m.split(',') if argv.m and argv.m != "true"
+          } if argv.m
         } <<< (@opt.lsp or {}) <<< {base: '.', i18n})
 
 if require.main == module =>

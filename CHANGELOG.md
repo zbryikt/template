@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.4.1
+
+ - enhence `-m` with customizable extensions
+
+
 ## v2.4.0
 
  - support `-m` option to mix up pug and asset folder ( copy asset directly from pug )

@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "bin/lib/index.js",
   "description": "simple, quick template for bootstrap a page",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "files": [
     "bin/**/*"
   ],
