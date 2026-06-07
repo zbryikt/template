@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.4.2
+
+ - upgrade dependencies to fix major vulnerabilities
+
+
 ## v2.4.1
 
  - enhence `-m` with customizable extensions
