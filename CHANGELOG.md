@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.4.3
+
+ - upgrade dependencies to fix major vulnerabilities
+
+
 ## v2.4.2
 
  - upgrade dependencies to fix major vulnerabilities
