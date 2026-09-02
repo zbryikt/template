@@ -1,5 +1,10 @@
 # Change Log
 
+## v2.5.0
+
+ - upgrade srcbuild - bump version since it's a crucial part of @zbryikt/template
+
+
 ## v2.4.3
 
  - upgrade dependencies to fix major vulnerabilities
